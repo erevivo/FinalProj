@@ -1,0 +1,31 @@
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src=<%-flower.img%> alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">
+            <%-flower.name%>
+        </h5>
+        <p class="card-text">Price
+            <%-flower.price%>
+        </p>
+
+        <div style="flex:1;"><a class="dropdown-toggle text-primary" style="display: block;" id=<%- "dropDownMenu"+flower.ID%> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Choose a Color
+        </a>
+            <div class="dropdown-menu" aria-labelledby=<%- "dropDownMenu"+flower.ID%>>
+                <% flower.color.forEach(color=>{ %>
+                    <a class="dropdown-item">
+                        <%-color%>
+                    </a>
+                    <% }); %>
+
+            </div>
+            <%if (isLoggedIn){%>
+                <div style=" margin: 10px 100px 10px 0px; line-height: 40px; height: 40px">
+                    Amount:<input id=<%- "quantity" + flower.ID%> class="form-control" type="number" value="1" min='1' style="float:right;width:40%;">
+                </div>
+                <button class="btn btn-warning add-flwr-btn" style="float: right;" id=<%- "addBtn" + flower.ID%>>Add to Cart <i class="fa fa-plus" aria-hidden="true"></i></button>
+                <%}%>
+        </div>
+    </div>
+
+
+</div>

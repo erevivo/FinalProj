@@ -1,0 +1,11 @@
+<ul style="list-style-type: none; overflow: hidden; padding-top: 30px;">
+
+    <% flowers.forEach(flower=>{ %>
+        <li class="col-md-4" style="float: left; padding-bottom: 15px; padding-right: 15px;">
+            <%- include('./flower', {flower: flower, isLoggedIn: isLoggedIn}); %>
+        </li>
+        <% }); %>
+</ul>
+
+<script src="javascripts/Flowers.js">
+</script>
