@@ -6,7 +6,7 @@ async function createBranch() {
     let name = $(nameAddBranch).val();
     let address = $(addressAddBranch).val();
     loading(true);
-    fetch("/createBranch", {
+    fetch("/branches/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

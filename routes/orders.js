@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var { writeJson, orders } = require('../database/database');
+var { writeJson, orders, carts } = require('../database/database');
 var cmn = require('../database/common');
 var currentSessions = cmn.currentSessions;
 /* GET home page. */
@@ -33,7 +33,7 @@ router.get("/page", (req, res) => {
     let currentUserOrders = orders.filter(order => order.userID == currentSessions[req.sessionID]);
     currentUserOrders = currentUserOrders.map(order => {
         let detailsWithImgs = order.details.map(item => cmn.getDetailedFlowerFromOrderItem(item));
-        currentUser = cmn.getUserBy("ID", order.userID);
+        let currentUser = cmn.getUserBy("ID", order.userID);
         return {
             userName: currentUser.fname + " " + currentUser.lname,
             address: order.address,
@@ -48,7 +48,7 @@ router.get("/page", (req, res) => {
 
     });
     currentUserOrders.sort((first, second) => cmn.getDateFromString(first.time) < cmn.getDateFromString(second.time) ? 1 : -1)
-    res.render('order', { orders: currentUserOrders, isEmployee: false, reloadRoute: "page" });
+    res.render('order', { orders: currentUserOrders, isEmployee: false, reloadRoute: "orders/page" });
 });
 
 router.get("/all", (req, res) => {
@@ -59,7 +59,7 @@ router.get("/all", (req, res) => {
     }
     let ordersForEjs = orders.map(order => {
         let detailsWithImgs = order.details.map(item => cmn.getDetailedFlowerFromOrderItem(item));
-        currentUser = cmn.getUserBy("ID", order.userID);
+        let currentUser = cmn.getUserBy("ID", order.userID);
         return {
             userName: currentUser.fname + " " + currentUser.lname,
             address: order.address,
@@ -75,7 +75,7 @@ router.get("/all", (req, res) => {
     });
     console.log(ordersForEjs);
     ordersForEjs.sort((first, second) => cmn.getDateFromString(first.time) < cmn.getDateFromString(second.time) ? 1 : -1)
-    res.render('order', { orders: ordersForEjs, isEmployee: true, reloadRoute: "all" });
+    res.render('order', { orders: ordersForEjs, isEmployee: true, reloadRoute: "orders/all" });
 });
 
 router.post("/deploy", (req, res) => {

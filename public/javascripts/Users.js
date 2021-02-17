@@ -4,7 +4,7 @@ async function deleteUser(event) {
         return;
     }
     loading(true);
-    fetch("/deleteUser", {
+    fetch("/users/delete", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -36,7 +36,7 @@ async function promoteUser(event) {
         return;
     }
     loading(true);
-    fetch("/promoteUser", {
+    fetch("/users/promote", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -61,7 +61,7 @@ async function demoteUser(event) {
         return;
     }
     loading(true);
-    fetch("/demoteUser", {
+    fetch("/users/demote", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -109,7 +109,7 @@ async function createEmployee() {
     let salary = $(salaryAddEmployee).val();
     let branch = $(branchAddEmployee).val();
     loading(true);
-    fetch("/createEmployee", {
+    fetch("/users/createEmployee", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

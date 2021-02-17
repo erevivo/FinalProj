@@ -56,7 +56,7 @@ async function createOrder() {
     }
     if (!$("#orderAddress").val() || !$("#orderDescription").val()) return;
     loading(true);
-    fetch("/createOrder", {
+    fetch("/orders/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -75,7 +75,7 @@ async function createOrder() {
                 shoppingCart = [];
                 $("#createOrderModal").modal("toggle");
                 $("#cartSize").text(0);
-                mainLoad('/cartPage');
+                mainLoad('/cart/Page');
             } else {
                 console.log("Error:", data.message);
             }

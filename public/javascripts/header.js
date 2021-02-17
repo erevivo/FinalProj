@@ -57,7 +57,7 @@ async function login(email, password) {
         return;
     }
     loading(true);
-    fetch("/authenticate", {
+    fetch("/users/authenticate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -96,7 +96,7 @@ async function login(email, password) {
 
 async function logout() {
     loading(true);
-    fetch("/logout")
+    fetch("/users/logout")
         .then((res) => res.json())
         .then((data) => {
             if (data.success) {
@@ -127,7 +127,7 @@ async function checkUser() {
     let userType = getCookie("userType");
     if (isAuthorizedUsers(userType)) {
         loading(true);
-        fetch("/userType")
+        fetch("/users/Type")
             .then((res) => res.json())
             .then((data) => {
                 loading(false);
@@ -172,7 +172,7 @@ async function createCustomer() {
     let lname = $(lnameAddCustomer).val();
     let email = $(emailAddCustomer).val();
     loading(true);
-    fetch("/createCustomer", {
+    fetch("/users/createCustomer", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -5,7 +5,7 @@ $(".add-flwr-btn").on('click', function(e) {
     if (color == "Colors")
         return;
     console.log(flowerId, quantity, color);
-    existingItem = shoppingCart.filter(i => i.id == flowerId && i.color == color);
+    let existingItem = shoppingCart.filter(i => i.id == flowerId && i.color == color);
     if (existingItem.length == 0)
         shoppingCart.push({ id: flowerId, quantity: quantity, color: color });
     else {

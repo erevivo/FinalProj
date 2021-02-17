@@ -4,7 +4,7 @@ async function deploy(id) {
         return;
     }
     loading(true);
-    fetch("/deployOrder", {
+    fetch("/orders/deploy", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -31,7 +31,7 @@ async function accept(id) {
         return;
     }
     loading(true);
-    fetch("/acceptOrder", {
+    fetch("/orders/accept", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

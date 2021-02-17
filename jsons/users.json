@@ -97,5 +97,14 @@
         "password": "Yy2fOwunTc",
         "Branch": 2,
         "ID": 10
+    },
+    {
+        "fname": "Poop",
+        "lname": "mcgee",
+        "email": "poo@pee.com",
+        "userType": "customer",
+        "password": "J0g",
+        "Branch": null,
+        "ID": 11
     }
 ]

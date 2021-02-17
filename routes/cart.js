@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-var { carts } = require('../database/database');
-var { currentSessions } = require('../database/common');
+var { carts, writeJson } = require('../database/database');
+var { currentSessions, getDetailedFlowerFromOrderItem } = require('../database/common');
 
 /* GET home page. */
 
@@ -15,7 +15,7 @@ router.post("/", function(req, res) {
 });
 router.get("/page", (req, res) => {
     let cartWithImages = carts[currentSessions[req.sessionID]].map(item => getDetailedFlowerFromOrderItem(item));
-    res.render('/cart', { cart: cartWithImages });
+    res.render('cart', { cart: cartWithImages });
 });
 
 

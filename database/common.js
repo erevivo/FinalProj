@@ -34,6 +34,13 @@ function getCurrentDateTime() {
     return time + ' ' + date;
 }
 
+function getDateFromString(dateStr) {
+    let splitDate = dateStr.split(' ');
+    let time = splitDate[0];
+    let date = splitDate[1].split('/');
+    return Date.parse(`${time} ${date[1]}/${date[0]}/${date[2]}`);
+}
+
 
 function getUserBySessID(value) {
     return getUserBy("ID", currentSessions[value]);
@@ -106,4 +113,5 @@ module.exports = {
     getAuthLevel: getAuthLevel,
     getCurrentDateTime: getCurrentDateTime,
     validateEmail: validateEmail,
+    getDateFromString: getDateFromString
 }

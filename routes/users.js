@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var { users, writeJson } = require("../database/database");
+var { users, writeJson, carts } = require("../database/database");
 var cmn = require('../database/common');
-var { currentSessions, lockedSessions, currentSessions } = cmn;
+var { currentSessions, lockedSessions, currentSessions, passwordattempts } = cmn;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -143,7 +143,9 @@ router.post("/authenticate", function(req, res) {
         res.json({ success: false, message: "Server Error!" });
         return;
     }
+
     user = user[0];
+
     if (req.sessionID in lockedSessions && user.ID in lockedSessions[req.sessionID]) {
         console.log(lockedSessions[req.sessionID]);
         let difference = (Date.now() - lockedSessions[req.sessionID][user.ID]);
@@ -158,7 +160,7 @@ router.post("/authenticate", function(req, res) {
         }
     }
     if (user.password == body.password) {
-        setCookies(res, user);
+        cmn.setCookies(res, user);
         if (body.remember)
             cmn.setRememberCookies(res, user);
         else

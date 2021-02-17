@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "nodemon ./bin/www"
+        "start": "nodemon --ignore public/* --ignore jsons/*.json ./bin/www "
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",
@@ -16,5 +16,17 @@
     },
     "devDependencies": {
         "nodemon": "^2.0.7"
-    }
+    },
+    "main": "app.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/AviK311/Exercise4_Project.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/AviK311/Exercise4_Project/issues"
+    },
+    "homepage": "https://github.com/AviK311/Exercise4_Project#readme",
+    "description": ""
 }
