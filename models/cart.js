@@ -1,14 +1,7 @@
-var cartDB = require('./mongo')("carts");
+var distListDB = require('./mongo')("distList");
 
 
-function setCart(id, items) {
-    let currentCart = { ID: id };
-    let newvalues = { $set: { items: items } };
-    cartDB.updateOne(currentCart, newvalues, function(err, res) {
-        if (err) throw err;
-        console.log("1 document updated");
-    });
-}
+
 
 function getCartByID(id) {
     return cartDB.findOne({ ID: id });

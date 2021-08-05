@@ -8,4 +8,5 @@ function getDB(callback) {
         callback();
     });
 }
+//when server is up, exports will switch to a function that returns the collections.
 module.exports = getDB;
