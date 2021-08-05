@@ -1,27 +1,7 @@
-var { writeJson, branches, flowers, users } = require('./database');
-
 const currentSessions = {}; //key - sessionID. val - userID
-const lockedSessions = {}; //key - sessionID. val - object(key - userID. val - lock time)
-const passwordattempts = {}; //key - sessionID. val - object(key - userID. val - attempts)
 
-var { getFlowerByID } = require('../models/flowers');
 var { getUserBy } = require('../models/users')
 
-function getDetailedFlowerList(items, flowers) {
-    console.log(items, flowers)
-    return items.map(item => {
-        let flower = flowers.find(flower => flower.ID == item.id);
-        return {
-            quantity: item.quantity,
-            color: item.color,
-            name: flower.name,
-            img: flower.img,
-            price: flower.price,
-            id: item.id
-        };
-    })
-
-}
 
 function getCurrentDateTime() {
     let today = new Date();
@@ -45,17 +25,10 @@ function resetRememberCookies(res) {
     res.cookie("rPassword", '');
 }
 
-function validateEmail(email) {
-    const re = /[\w.]{1,20}@\w{1,20}(\.\w{2,3}){1,2}/g;
-    return re.test(email);
-}
-
 function getAuthLevel(user) {
     const authLevels = {
-        "Developer": 2,
-        "manager": 2,
-        "employee": 1,
-        "customer": 0
+        "M": 2,
+        "D": 1,
     };
     return user ? authLevels[user.userType] : 0;
 }
@@ -80,23 +53,12 @@ function setCookies(res, user) {
     res.cookie("userType", user.userType, options);
 }
 
-function setRememberCookies(res, user) {
-    res.cookie("remember", true);
-    res.cookie("rEmail", user.email);
-    res.cookie("rPassword", user.password);
-}
-
 module.exports = {
-    lockedSessions,
-    passwordattempts,
     currentSessions,
-    getDetailedFlowerList,
-    setRememberCookies,
     setCookies,
     resetRememberCookies,
     getUserBySessID,
     getAuthLevel,
     getCurrentDateTime,
-    validateEmail,
     getDateFromString
 }
