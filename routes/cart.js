@@ -1,20 +1,21 @@
 var express = require("express");
 var router = express.Router();
 var { carts, writeJson } = require('../database/database');
-var { currentSessions, getDetailedFlowerFromOrderItem } = require('../database/common');
-
-/* GET home page. */
-
+var { currentSessions, getDetailedFlowerList, getCartByID } = require('../database/common');
+var { setCart, getCartByID } = require('../models/cart');
+var { getGroupFlowers } = require('../models/flowers');
 
 router.post("/", function(req, res) {
     let cart = req.body.cart;
-    carts[currentSessions[req.sessionID]] = cart;
-    writeJson('carts', carts);
+    setCart(currentSessions[req.sessionID], cart);
     res.json({ success: true });
 
 });
-router.get("/page", (req, res) => {
-    let cartWithImages = carts[currentSessions[req.sessionID]].map(item => getDetailedFlowerFromOrderItem(item));
+router.get("/page", async function(req, res) {
+    let currentCart = await getCartByID(currentSessions[req.sessionID]);
+    let flowerIDs = currentCart.items.map(item => parseInt(item.id));
+    let currentFlowers = await getGroupFlowers(flowerIDs);
+    let cartWithImages = getDetailedFlowerList(currentCart.items, currentFlowers);
     res.render('cart', { cart: cartWithImages });
 });
 

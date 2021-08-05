@@ -1,29 +1,25 @@
 var { writeJson, branches, flowers, users } = require('./database');
-var branchName = {};
-branches.forEach(branch => {
-    branchName[branch.ID] = branch.name;
-});
+
 const currentSessions = {}; //key - sessionID. val - userID
 const lockedSessions = {}; //key - sessionID. val - object(key - userID. val - lock time)
 const passwordattempts = {}; //key - sessionID. val - object(key - userID. val - attempts)
 
-function getFlowerByID(value) {
-    filteredFlowers = flowers.filter(f => f.ID == value);
-    if (filteredFlowers.length == 0)
-        return null;
-    return filteredFlowers[0];
-}
+var { getFlowerByID } = require('../models/flowers');
+var { getUserBy } = require('../models/users')
 
-function getDetailedFlowerFromOrderItem(item) {
-    let flower = getFlowerByID(item.id);
-    return {
-        quantity: item.quantity,
-        color: item.color,
-        name: flower.name,
-        img: flower.img,
-        price: flower.price,
-        id: item.id
-    };
+function getDetailedFlowerList(items, flowers) {
+    console.log(items, flowers)
+    return items.map(item => {
+        let flower = flowers.find(flower => flower.ID == item.id);
+        return {
+            quantity: item.quantity,
+            color: item.color,
+            name: flower.name,
+            img: flower.img,
+            price: flower.price,
+            id: item.id
+        };
+    })
 
 }
 
@@ -42,9 +38,6 @@ function getDateFromString(dateStr) {
 }
 
 
-function getUserBySessID(value) {
-    return getUserBy("ID", currentSessions[value]);
-}
 
 function resetRememberCookies(res) {
     res.cookie("remember", false);
@@ -58,7 +51,7 @@ function validateEmail(email) {
 }
 
 function getAuthLevel(user) {
-    let authLevels = {
+    const authLevels = {
         "Developer": 2,
         "manager": 2,
         "employee": 1,
@@ -67,20 +60,15 @@ function getAuthLevel(user) {
     return user ? authLevels[user.userType] : 0;
 }
 
-function getUserBy(field, value) {
-    user = users.filter(u => u[field] == value);
-    return user[0];
-}
 
-function getUserBySessID(value) {
-    return getUserBy("ID", currentSessions[value]);
+
+async function getUserBySessID(value) {
+    return await getUserBy("ID", currentSessions[value]);
 }
 
 
-function addUser(newUser) {
-    users.push(newUser);
-    writeJson('users', users);
-}
+
+
 
 function setCookies(res, user) {
     let options = {
@@ -99,19 +87,16 @@ function setRememberCookies(res, user) {
 }
 
 module.exports = {
-    branchName: branchName,
-    currentSessions: currentSessions,
-    lockedSessions: lockedSessions,
-    passwordattempts: passwordattempts,
-    getDetailedFlowerFromOrderItem: getDetailedFlowerFromOrderItem,
-    setRememberCookies: setRememberCookies,
-    setCookies: setCookies,
-    resetRememberCookies: resetRememberCookies,
-    addUser: addUser,
-    getUserBySessID: getUserBySessID,
-    getUserBy: getUserBy,
-    getAuthLevel: getAuthLevel,
-    getCurrentDateTime: getCurrentDateTime,
-    validateEmail: validateEmail,
-    getDateFromString: getDateFromString
+    lockedSessions,
+    passwordattempts,
+    currentSessions,
+    getDetailedFlowerList,
+    setRememberCookies,
+    setCookies,
+    resetRememberCookies,
+    getUserBySessID,
+    getAuthLevel,
+    getCurrentDateTime,
+    validateEmail,
+    getDateFromString
 }

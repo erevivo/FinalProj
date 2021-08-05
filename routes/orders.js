@@ -1,113 +1,114 @@
 var express = require("express");
 var router = express.Router();
-var { writeJson, orders, carts } = require('../database/database');
-var cmn = require('../database/common');
-var currentSessions = cmn.currentSessions;
-/* GET home page. */
+var {
+    currentSessions,
+    getCurrentDateTime,
+    getDetailedFlowerList,
+    getUserBySessID,
+    getDateFromString,
+    getAuthLevel
+} = require('../database/common');
+var { getCartByID, setCart } = require('../models/cart');
+const { getGroupFlowers } = require("../models/flowers");
+var {
+    addOrder,
+    getOrderBy,
+    getOrdersOf,
+    getAllOrders,
+    deployOrder,
+    acceptOrder
+} = require('../models/orders');
+var { getUserBy } = require('../models/users');
 
-
-router.post("/create", function(req, res) {
-    let cart = carts[currentSessions[req.sessionID]];
-    orders.push({
+router.post("/create", async function(req, res) {
+    let cart = await getCartByID(currentSessions[req.sessionID]);
+    newOrder = {
         userID: currentSessions[req.sessionID],
         price: req.body.totalPrice,
         address: req.body.address,
         description: req.body.description,
         details: cart,
-        orderTime: cmn.getCurrentDateTime(),
+        orderTime: getCurrentDateTime(),
         isDeployed: false,
         isDelivered: false,
         deliveryTime: null,
-        ID: orders.length ? orders.reduce((prev, current) => (prev.ID > current.ID) ? prev : current).ID + 1 : 0
-    });
-    writeJson('orders', orders);
-
-    carts[currentSessions[req.sessionID]] = [];
-    writeJson('carts', carts);
-
+    };
+    addOrder(newOrder);
+    setCart(currentSessions[req.sessionID], []);
     res.json({ success: true });
 
 });
 
-router.get("/page", (req, res) => {
-    let currentUserOrders = orders.filter(order => order.userID == currentSessions[req.sessionID]);
-    currentUserOrders = currentUserOrders.map(order => {
-        let detailsWithImgs = order.details.map(item => cmn.getDetailedFlowerFromOrderItem(item));
-        let currentUser = cmn.getUserBy("ID", order.userID);
-        return {
-            userName: currentUser.fname + " " + currentUser.lname,
-            address: order.address,
-            description: order.description,
-            time: order.orderTime,
-            details: detailsWithImgs,
-            isDeployed: order.isDeployed,
-            isDelivered: order.isDelivered,
-            deliveryTime: order.deliveryTime,
-            ID: order.ID,
-        };
+async function getOrderForEJS(order, currentUser) {
+    let flowerIDs = order.details.map(item => item.id);
+    let currentOrderFlowers = await getGroupFlowers(flowerIDs);
+    console.log(order.details, currentOrderFlowers);
+    let detailsWithImgs = getDetailedFlowerList(order.details, currentOrderFlowers);
+    return {
+        userName: currentUser.fname + " " + currentUser.lname,
+        address: order.address,
+        description: order.description,
+        time: order.orderTime,
+        details: detailsWithImgs,
+        isDeployed: order.isDeployed,
+        isDelivered: order.isDelivered,
+        deliveryTime: order.deliveryTime,
+        ID: order.ID,
+    };
 
-    });
-    currentUserOrders.sort((first, second) => cmn.getDateFromString(first.time) < cmn.getDateFromString(second.time) ? 1 : -1)
+
+}
+
+router.get("/page", async function(req, res) {
+    let currentUser = await getUserBySessID(req.sessionID);
+    let currentUserOrders = await getOrdersOf(currentUser.ID);
+    for (let i = 0; i < currentUserOrders.length; ++i) {
+        currentUserOrders[i] = await getOrderForEJS(currentUserOrders[i], currentUser);
+    }
+    currentUserOrders.sort((first, second) => getDateFromString(first.time) < getDateFromString(second.time) ? 1 : -1)
     res.render('order', { orders: currentUserOrders, isEmployee: false, reloadRoute: "orders/page" });
 });
 
-router.get("/all", (req, res) => {
-    let currentUser = cmn.getUserBySessID(req.sessionID);
-    if (cmn.getAuthLevel(currentUser) < 1) {
+router.get("/all", async function(req, res) {
+    let currentUser = await getUserBySessID(req.sessionID);
+    if (getAuthLevel(currentUser) < 1) {
         res.json({ success: false, message: "You are unauthorized to see this content" });
         return;
     }
-    let ordersForEjs = orders.map(order => {
-        let detailsWithImgs = order.details.map(item => cmn.getDetailedFlowerFromOrderItem(item));
-        let currentUser = cmn.getUserBy("ID", order.userID);
-        return {
-            userName: currentUser.fname + " " + currentUser.lname,
-            address: order.address,
-            description: order.description,
-            time: order.orderTime,
-            details: detailsWithImgs,
-            isDeployed: order.isDeployed,
-            isDelivered: order.isDelivered,
-            ID: order.ID,
-            deliveryTime: order.deliveryTime
-        };
-
-    });
-    console.log(ordersForEjs);
-    ordersForEjs.sort((first, second) => cmn.getDateFromString(first.time) < cmn.getDateFromString(second.time) ? 1 : -1)
-    res.render('order', { orders: ordersForEjs, isEmployee: true, reloadRoute: "orders/all" });
+    let orders = await getAllOrders();
+    for (let i = 0; i < orders.length; ++i) {
+        let currentUser = await getUserBy("ID", orders[i].userID);
+        orders[i] = await getOrderForEJS(orders[i], currentUser);
+    }
+    orders.sort((first, second) => getDateFromString(first.time) < getDateFromString(second.time) ? 1 : -1)
+    res.render('order', { orders: orders, isEmployee: true, reloadRoute: "orders/all" });
 });
 
-router.post("/deploy", (req, res) => {
-    let currentUser = cmn.getUserBySessID(req.sessionID);
-    if (cmn.getAuthLevel(currentUser) < 1) {
+router.post("/deploy", async function(req, res) {
+    let currentUser = await getUserBySessID(req.sessionID);
+    if (getAuthLevel(currentUser) < 1) {
         res.json({ success: false, message: "You are unauthorized to deploy orders" });
         return;
     }
-    let orderID = req.body.id;
-    currentOrder = orders.filter(order => order.ID == orderID);
-    if (currentOrder.length == 0) {
+    let currentOrder = getOrderBy("ID", req.body.id);
+    if (!currentOrder) {
         res.json({ success: false, message: "That order does not exist" });
         return;
     }
-    currentOrder = currentOrder[0];
     if (currentOrder.isDeployed) {
         res.json({ success: false, message: "That order has already been deployed" });
         return;
     }
-    currentOrder.isDeployed = true;
-    writeJson('orders', orders);
+    deployOrder(currentOrder.ID)
     res.json({ success: true, message: "The order has been successfully deployed" });
 });
 
 router.post("/accept", (req, res) => {
-    let orderID = req.body.id;
-    currentOrder = orders.filter(order => order.ID == orderID);
-    if (currentOrder.length == 0) {
+    let currentOrder = getOrderBy("ID", req.body.id);
+    if (!currentOrder) {
         res.json({ success: false, message: "That order does not exist" });
         return;
     }
-    currentOrder = currentOrder[0];
     if (!currentOrder.isDeployed) {
         res.json({ success: false, message: "That order has not been deployed" });
         return;
@@ -116,10 +117,7 @@ router.post("/accept", (req, res) => {
         res.json({ success: false, message: "That order has already been delivered" });
         return;
     }
-    currentOrder.isDelivered = true;
-    currentOrder.deliveryTime = cmn.getCurrentDateTime();
-    writeJson('orders', orders);
-
+    acceptOrder(currentOrder.ID, getCurrentDateTime());
     res.json({ success: true, message: "The order has been accepted" });
 });
 

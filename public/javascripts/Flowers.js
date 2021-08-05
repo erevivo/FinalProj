@@ -1,5 +1,5 @@
 $(".add-flwr-btn").on('click', function(e) {
-    let flowerId = e.target.id.replace('addBtn', '');
+    let flowerId = parstInt(e.target.id.replace('addBtn', ''));
     let quantity = parseInt($('#quantity' + flowerId).val());
     let color = $('#dropDownMenu' + flowerId).text().trim();
     if (color == "Colors")

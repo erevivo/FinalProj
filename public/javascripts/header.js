@@ -2,7 +2,6 @@ var currentRequest;
 
 async function mainLoad(route) {
     loading(true);
-    console.log(currentRequest);
     if (currentRequest)
         currentRequest.abort();
     waiting = true;
@@ -160,6 +159,7 @@ function activate(curElement) {
 }
 checkUser();
 async function createCustomer() {
+    console.log("creating customer");
     if (!adding) {
         alertServerError();
         return;

@@ -39,7 +39,7 @@
         "fname": "Amanda",
         "lname": "Holstein",
         "email": "Amanda_Holstein@BestBudsForever.org",
-        "userType": "employee",
+        "userType": "manager",
         "password": "CTNrPJaCxy",
         "Branch": 2,
         "ID": 4
@@ -106,5 +106,104 @@
         "password": "J0g",
         "Branch": null,
         "ID": 11
+    },
+    {
+        "fname": "poop",
+        "lname": "mcgee",
+        "email": "poo@pepppe.com",
+        "userType": "customer",
+        "password": "J",
+        "Branch": null,
+        "ID": 12
+    },
+    {
+        "fname": "poopoo",
+        "lname": "peepee",
+        "email": "abkoen@gmfffail.com",
+        "userType": "customer",
+        "password": "JJ",
+        "Branch": null,
+        "ID": 13
+    },
+    {
+        "fname": "Avi",
+        "lname": "Koenigsberg",
+        "email": "abkoeniii@gmail.com",
+        "userType": "customer",
+        "password": "K",
+        "Branch": null,
+        "ID": 14
+    },
+    {
+        "fname": "Avi",
+        "lname": "Koenigsberg",
+        "email": "abkoen@gmaddil.com",
+        "userType": "customer",
+        "password": "1",
+        "Branch": null,
+        "ID": 15
+    },
+    {
+        "fname": "Avi",
+        "lname": "Koenigsberg",
+        "email": "abkoen@gmaffil.com",
+        "userType": "customer",
+        "password": "1",
+        "Branch": null,
+        "ID": 16
+    },
+    {
+        "fname": "Avi",
+        "lname": "Koenigsberg",
+        "email": "abkoen@gmjail.com",
+        "userType": "customer",
+        "password": "1",
+        "Branch": null,
+        "ID": 17
+    },
+    {
+        "fname": "pee",
+        "lname": "poo",
+        "email": "pee@poo.pee",
+        "userType": "customer",
+        "password": "1",
+        "Branch": null,
+        "ID": 18
+    },
+    {
+        "fname": "poo",
+        "lname": "pee",
+        "email": "poo@pee.ppp",
+        "userType": "customer",
+        "password": "a",
+        "Branch": null,
+        "ID": 19
+    },
+    {
+        "fname": "pee",
+        "lname": "poo",
+        "email": "ppe@jjsj.co",
+        "userType": "customer",
+        "password": "111",
+        "Branch": null,
+        "ID": 20
+    },
+    {
+        "fname": "Avi",
+        "lname": "ppp",
+        "email": "abkoffen@gmail.com",
+        "userType": "customer",
+        "password": "1",
+        "Branch": null,
+        "ID": 21
+    },
+    {
+        "fname": "qqq",
+        "lname": "www",
+        "email": "qq@eee.ccc",
+        "userType": "customer",
+        "password": "J",
+        "Branch": null,
+        "ID": 22
     }
 ]
