@@ -8,23 +8,7 @@ async function addUser(user) {
     userDB.insertOne(user);
 }
 
-function promoteUser(userID) {
-    let userToPromote = { ID: userID };
-    let newvalues = { $set: { userType: "manager" } };
-    userDB.updateOne(userToPromote, newvalues, function(err, res) {
-        if (err) throw err;
-        console.log("1 document updated");
-    });
-}
 
-function demoteUser(userID) {
-    let userToDemote = { ID: userID };
-    let newvalues = { $set: { userType: "employee" } };
-    userDB.updateOne(userToDemote, newvalues, function(err, res) {
-        if (err) throw err;
-        console.log("1 document updated");
-    });
-}
 
 function deleteUser(user) {
     userDB.deleteOne({ ID: user.ID },
@@ -41,9 +25,14 @@ function getUserBy(key, value) {
     return returnUser;
 }
 
-function getUsers() {
-    return userDB.find({ userType: { "$ne": "Developer" } }).toArray();
+function getManagers(){
+    return userDB.find({ userType: { "$eq": "M" } }).toArray();
 }
+
+function getDistributers(){
+    return userDB.find({ userType: { "$eq": "D" } }).toArray();
+}
+
 
 async function getNewID() {
     let highestArray = userDB.find().project({ _id: 0, ID: 1 }).sort({ ID: -1 }).limit(1);
@@ -53,8 +42,5 @@ async function getNewID() {
 module.exports = {
     addUser,
     deleteUser,
-    promoteUser,
-    demoteUser,
     getUserBy,
-    getUsers
 };

@@ -1,33 +1,33 @@
 {
-    "name": "exercise4-project",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-        "start": "nodemon --ignore public/* --ignore jsons/*.json ./bin/www "
-    },
-    "dependencies": {
-        "cookie-parser": "~1.4.4",
-        "debug": "~2.6.9",
-        "ejs": "~2.6.1",
-        "express": "~4.16.1",
-        "express-session": "^1.17.1",
-        "http-errors": "~1.6.3",
-        "mongodb": "^3.6.4",
-        "morgan": "~1.9.1"
-    },
-    "devDependencies": {
-        "nodemon": "^2.0.7"
-    },
-    "main": "app.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/AviK311/Exercise4_Project.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/AviK311/Exercise4_Project/issues"
-    },
-    "homepage": "https://github.com/AviK311/Exercise4_Project#readme",
-    "description": ""
+  "name": "myproj",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www "
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "http-errors": "~1.6.3",
+    "mongodb": "^3.6.10",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AviK311/FinalProj.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AviK311/FinalProj/issues"
+  },
+  "homepage": "https://github.com/AviK311/FinalProj#readme",
+  "description": ""
 }
