@@ -40,8 +40,7 @@ router.delete("/delete", async function (req, res) {
 router.post("/newUser", async function (req, res) {
         let body = req.body;
         console.log(body);
-        let existing = await getUserBy("fname", body.ID);
-        if (existing && existing.lname == body.lname) {
+        if (await getUserBy("name", body.name)) {
                 res.json({
                         success: false,
                         message: "A user with that name exists",
@@ -49,8 +48,7 @@ router.post("/newUser", async function (req, res) {
                 return;
         }
         let newUser = {
-                fname: body.fname,
-                lname: body.lname,
+                name: body.name,
                 userType: body.type,
                 password: body.password,
         };
@@ -65,74 +63,30 @@ router.get("/Type", async function (req, res) {
 });
 
 router.post("/authenticate", async function (req, res) {
-        if (!(req.sessionID in passwordattempts))
-                passwordattempts[req.sessionID] = {};
         let body = req.body;
-        if (!validateEmail(body.email)) {
-                res.json({ success: false, message: "Email is invalid" });
-                return;
-        }
-        let user = await getUserBy("email", body.email);
+        let user = await getUserBy("name", body.name);
         if (!user)
                 res.json({
                         success: false,
-                        message: "There is no user with that Email Address",
+                        message: "There is no user with that name",
                 });
 
-        if (
-                req.sessionID in lockedSessions &&
-                user.ID in lockedSessions[req.sessionID]
-        ) {
-                console.log(lockedSessions[req.sessionID]);
-                let difference =
-                        Date.now() - lockedSessions[req.sessionID][user.ID];
-                difference = difference / (1000 * 3600);
-                console.log(difference);
-                if (difference < 6) {
-                        res.json({
-                                success: false,
-                                message: "This user has been locked out of this session",
-                        });
-                        return;
-                } else {
-                        delete lockedSessions[req.sessionID][user.ID];
-                        delete passwordattempts[req.sessionID][user.ID];
-                }
-        }
         if (user.password == body.password) {
                 setCookies(res, user);
-                if (body.remember) setRememberCookies(res, user);
-                else resetRememberCookies(res);
-                let currentCart = await getCartByID(user.ID);
-                if (!currentCart) {
-                        createCart(user.ID);
-                        currentCart = { items: [] };
-                }
                 let jsonToSend = {
                         success: true,
                         user: user,
-                        isAuth: getAuthLevel(user) >= 1,
-                        cart: currentCart.items,
+                        isAuth: getAuthLevel(user) >= 2,
                 };
                 currentSessions[req.sessionID] = user.ID;
                 res.json(jsonToSend);
         } else {
-                if (!(user.ID in passwordattempts[req.sessionID]))
-                        passwordattempts[req.sessionID][user.ID] = 1;
-                else passwordattempts[req.sessionID][user.ID]++;
-
-                if (passwordattempts[req.sessionID][user.ID] >= 5) {
-                        if (!(req.sessionID in lockedSessions))
-                                lockedSessions[req.sessionID] = {};
-                        lockedSessions[req.sessionID][user.ID] = Date.now();
-
-                        res.json({ success: false, message: "Wrong Password" });
-                }
+                res.json({ success: false, message: "Wrong Password" });
         }
 });
 router.get("/logout", (req, res) => {
         delete currentSessions[req.sessionID];
-        setCookies(res, { fname: "", lname: "", email: "" });
+        setCookies(res, { name: "", userType: "" });
         res.json({ success: true });
 });
 

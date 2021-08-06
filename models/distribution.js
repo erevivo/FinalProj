@@ -14,13 +14,8 @@ function addDistribution(distribution) {
 }
 
 async function getNewID() {
-        let highestArray = distributionDB
-                .find()
-                .project({ _id: 0, ID: 1 })
-                .sort({ ID: -1 })
-                .limit(1);
-        let highestID = await highestArray.toArray();
-        return highestID[0].ID + 1;
+        let highestID = await distributionDB.find().sort({ ID: -1 }).limit(1);
+        return highestID.ID + 1;
 }
 
 module.exports = {
