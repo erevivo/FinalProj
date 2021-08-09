@@ -1,29 +1,36 @@
 var express = require("express");
 var router = express.Router();
-var {
-        currentSessions,
-        getCurrentDateTime,
-        getDetailedFlowerList,
-        getUserBySessID,
-        getDateFromString,
-        getAuthLevel,
-} = require("../database/common");
-var { getMessages, addMessage } = require("../models/messages");
-var { getUserBy } = require("../models/users");
+var { currentSessions, getCurrentDateTime } = require("../database/common");
+const { getConvos, addConvo, getConvo } = require("../models/convos");
+var { addMessage } = require("../models/messages");
 
 //TODO: Add Socket.io!!!
 
-router.post("/create", async function (req, res) {
-        let newMessage = {
-                from: currentSessions[req.sessionID],
-                distID: req.body.dist,
-                manID: req.body.man,
-                time: getCurrentDateTime(),
-        };
-        addMessage(newMessage);
-        res.json({ success: true });
+router.get("/", function (req, res) {
+        let uid = currentSessions[req.sessionID];
+        convos = getConvos(uid);
+        res.json({ success: true, convos: convo });
 });
 
-router.get("/messages", async function (req, res) {});
+router.post("/create", async function (req, res) {
+        let newMessage = {
+                time: getCurrentDateTime(),
+                text: req.body.text,
+        };
+        let convo;
+        if (req.body.isNew) {
+                convo = {
+                        mid: req.body.mid,
+                        did: req.body.did,
+                };
+                addConvo(convo);
+                addMessage(covo, newMessage);
+                req.json({ success: true, newConvo: convo });
+                return;
+        }
+        convo = getConvo(req.body.mid, req.body.did);
+        addMessage(convo, newMessage);
+        res.json({ success: true });
+});
 
 module.exports = router;

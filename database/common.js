@@ -3,14 +3,17 @@ const currentSessions = {}; //key - sessionID. val - userID
 var { getUserBy } = require("../models/users");
 
 function getCurrentDateTime() {
-        let today = new Date();
+        return getStringFromDate(new Date());
+}
+
+function getStringFromDate(dateobj) {
         let date =
-                today.getDate() +
+                dateobj.getDate() +
                 "/" +
-                (today.getMonth() + 1) +
+                (dateobj.getMonth() + 1) +
                 "/" +
-                today.getFullYear();
-        let time = today.getHours() + ":" + today.getMinutes();
+                dateobj.getFullYear();
+        let time = dateobj.getHours() + ":" + dateobj.getMinutes();
         return time + " " + date;
 }
 
@@ -27,12 +30,8 @@ function resetRememberCookies(res) {
         res.cookie("rPassword", "");
 }
 
-function getAuthLevel(user) {
-        const authLevels = {
-                M: 2,
-                D: 1,
-        };
-        return user ? authLevels[user.userType] : 0;
+function isManager(user) {
+        return user.userType == "M";
 }
 
 async function getUserBySessID(value) {
@@ -52,7 +51,8 @@ module.exports = {
         setCookies,
         resetRememberCookies,
         getUserBySessID,
-        getAuthLevel,
+        isManager,
         getCurrentDateTime,
         getDateFromString,
+        getStringFromDate,
 };

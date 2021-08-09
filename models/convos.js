@@ -14,6 +14,10 @@ async function addMessageToConvo(convo, message) {
         });
 }
 
+async function getConvo(mid, did) {
+        return convoDB.findOne({ mid: mid, did: did });
+}
+
 function getConvos(id) {
         return convoDB
                 .find({
@@ -22,4 +26,4 @@ function getConvos(id) {
                 .toArray();
 }
 
-module.exports = { getConvos, addConvo, addMessageToConvo };
+module.exports = { getConvo, getConvos, addConvo, addMessageToConvo };

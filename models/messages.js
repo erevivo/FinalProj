@@ -1,4 +1,5 @@
 var messageDB = require("./mongo")("messages");
+var { getCurrentDateTime } = require("../database/common");
 var { addMessageToConvo } = require("./convos");
 
 function getMessages(convo) {
@@ -7,6 +8,7 @@ function getMessages(convo) {
 
 async function addMessage(convo, message) {
         message.ID = getNewID();
+        message.time = getCurrentDateTime();
         messageDB.insertOne(message);
         addMessageToConvo(convo, message);
 }
@@ -19,5 +21,4 @@ async function getNewID() {
 module.exports = {
         getMessages,
         addMessage,
-        getExistingConvos,
 };

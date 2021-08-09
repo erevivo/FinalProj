@@ -2,37 +2,36 @@ var express = require("express");
 var router = express.Router();
 var {
         currentSessions,
-        getAuthLevel,
+        isManager,
         getUserBySessID,
         setCookies,
 } = require("../database/common");
-var { addUser, deleteUser, getUserBy } = require("../models/users");
+var { addUser, deleteUser, getUserBy, getUsers } = require("../models/users");
 
 router.get("/", async function (req, res, next) {
         let currentUser = await getUserBySessID(req.sessionID);
         console.log(currentUser);
-        if (getAuthLevel(currentUser) < 2) {
+        if (isManager(currentUser) < 2) {
                 res.send("You are unauthorized to view this content");
                 return;
         }
 
         //TODO: React page!!
-        //res.render("userList", { users: await getUsers(), Branches: branchName, withPassword: getAuthLevel(currentUser) >= 2 });
+        res.json({
+                users: await getUsers(),
+        });
 });
 router.delete("/delete", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
-        if (getAuthLevel(currentUser) < 2) {
+        if (isManager(currentUser) < 2) {
                 res.json({
                         success: false,
                         message: "You are unauthorized to delete users",
                 });
                 return;
         }
-        //TODO: get user by id
-        //let userToDelete = await getUserBy("email", req.body.email);
+        let userToDelete = await getUserBy("ID", req.body.ID);
         deleteUser(userToDelete);
-        //TODO: check if this is needed
-        users = users.filter((u) => u.email != req.body.email);
 
         res.json({ success: true, message: "User was deleted" });
 });
@@ -59,7 +58,7 @@ router.post("/newUser", async function (req, res) {
 router.get("/Type", async function (req, res) {
         currentUser = await getUserBySessID(req.sessionID);
         console.log(currentUser);
-        res.json({ isAuth: getAuthLevel(currentUser) >= 2 });
+        res.json({ isAuth: isManager(currentUser) });
 });
 
 router.post("/authenticate", async function (req, res) {
@@ -76,7 +75,7 @@ router.post("/authenticate", async function (req, res) {
                 let jsonToSend = {
                         success: true,
                         user: user,
-                        isAuth: getAuthLevel(user) >= 2,
+                        isAuth: isManager(user),
                 };
                 currentSessions[req.sessionID] = user.ID;
                 res.json(jsonToSend);
