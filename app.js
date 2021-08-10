@@ -15,6 +15,7 @@ function setRouter(route, router) {
 
 function setControllers() {
         //TODO: fix the routers
+        app.use("/", express.static(path.join(__dirname, 'views', 'build')));
         setRouter("/", "./routes/index");
         setRouter("/users", "./routes/users");
         setRouter("/distributions", "./routes/distribution");
@@ -25,8 +26,8 @@ function setControllers() {
         cron.schedule("0 0 * * *", unassignAll);
         app.emit("ready");
 }
-require("./models/mongo")(setControllers);
-
+//require("./models/mongo")(setControllers);
+app.use("/", express.static(path.join(__dirname, 'views', 'build')));
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 
@@ -40,6 +41,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: "poo" }));
+
 
 function setErrHandling() {
         // catch 404 and forward to error handler
