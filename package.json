@@ -14,7 +14,8 @@
     "http-errors": "~1.6.3",
     "mongodb": "^3.6.10",
     "morgan": "~1.9.1",
-    "node-cron": "^3.0.0"
+    "node-cron": "^3.0.0",
+    "react-login-modal": "^1.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

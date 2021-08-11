@@ -34,10 +34,13 @@ function unassignAll(id) {
         });
 }
 
-function getUserBy(key, value) {
+async function getUserBy(key, value) {
         qry = {};
         qry[key] = value;
-        let returnUser = userDB.findOne(qry);
+        //console.log(qry);
+        console.log(userDB);
+        let returnUser = await userDB.findOne(qry);
+        console.log(returnUser);
         return returnUser;
 }
 
@@ -54,8 +57,9 @@ async function getNewID() {
         return highestID.ID + 1;
 }
 
-function getUserName(id) {
-        return userDB.findOne({ ID: id }, { _id: 0, name: 1 });
+async function getUserName(id) {
+        let user = await userDB.findOne({ ID: id }, { _id: 0, name: 1 });
+        return user.name;
 }
 module.exports = {
         addUser,
@@ -64,4 +68,5 @@ module.exports = {
         assignDistributer,
         unassignAll,
         getUserName,
+        getUsers
 };

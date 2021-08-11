@@ -5,10 +5,11 @@ const { getUserName } = require("../models/users");
 var router = express.Router();
 /* GET home page. */
 router.get("/", async function (req, res) {
-        blogs = getBlogs();
-        blogs.forEach(async (blog) => {
-                blog.writerName = await getUserName(blog.writerID);
-        });
+        let blogs = await getBlogs();
+        for (let i = 0; i < blogs.length; i++){
+                blogs[i].writerName = await getUserName(blogs[i].writerID);
+        }
+        console.log(blogs);
         blogs.sort(
                 (b1, b2) =>
                         getDateFromString(b1.time) > getDateFromString(b2.time)
@@ -18,7 +19,7 @@ router.get("/", async function (req, res) {
 
 router.post("/create", function (req, res) {
         newBlog = {
-                writerID: req.body.writer,
+                writerID: parseInt(req.body.writer),
                 text: req.body.text,
                 time: getCurrentDateTime(),
         };

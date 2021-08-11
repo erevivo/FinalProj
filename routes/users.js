@@ -63,14 +63,16 @@ router.get("/Type", async function (req, res) {
 
 router.post("/authenticate", async function (req, res) {
         let body = req.body;
+        console.log(await getUsers());
         let user = await getUserBy("name", body.name);
         if (!user)
                 res.json({
                         success: false,
                         message: "There is no user with that name",
                 });
+        
 
-        if (user.password == body.password) {
+        else if (user.password == body.password) {
                 setCookies(res, user);
                 let jsonToSend = {
                         success: true,

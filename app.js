@@ -26,7 +26,7 @@ function setControllers() {
         cron.schedule("0 0 * * *", unassignAll);
         app.emit("ready");
 }
-//require("./models/mongo")(setControllers);
+require("./models/mongo")(setControllers);
 app.use("/", express.static(path.join(__dirname, 'views', 'build')));
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import ReactDOM from 'react-dom';
-import {Link} from 'react-router-dom';
-import Home from './Home'
+import { Link } from 'react-router-dom';
 import Nav from "react-bootstrap/Nav";
-import Users from './Users'
 import "./Navbar.css";
+import LoginModal from "./Loginmodal";
 class Navbar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.loginSuccess = this.loginSuccess.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -16,75 +14,62 @@ class Navbar extends Component {
     isManager: false,
   };
 
-  loginSuccess() {
-    this.setState({ loggedIn: true });
+  loginSuccess(isAuth) {
+    this.setState({ loggedIn: true, isManager: isAuth });
+    this.props.parentSet({ isManager: isAuth })
   }
   logout() {
     this.setState({ loggedIn: false });
+    this.props.parentSet({isManager:false})
   }
 
-  
+
+
   render() {
     return (
-      
+
       <Nav variant="tabs" defaultActiveKey="/home">
         <Nav.Item className="col-sm-2">
-          <Nav.Link eventKey="link-1"><Link to={"/home"}>Home</Link></Nav.Link>
+          <Link eventKey="link-1" to={"/home"}>Home</Link>
         </Nav.Item>
         {!this.state.loggedIn && (
           <Nav.Item className="col-sm-2">
-            <Nav.Link
-              eventKey="link-1"
-              onClick={
-                this
-                  .loginSuccess
-              }
-            >
-              Login
-            </Nav.Link>
+            <LoginModal loginFunc={this.loginSuccess} />
           </Nav.Item>
         )}
         {this.state.loggedIn && (
-          <Nav.Item  className="col-sm-2">
-            <Nav.Link
+          <Nav.Item className="col-sm-2">
+            <Link
               eventKey="link-2"
               onClick={this.logout}
             >
               Logout
-            </Nav.Link>
+            </Link>
           </Nav.Item>
         )}
 
         {this.state.loggedIn && (
-          <Nav.Item  className="col-sm-2">
-            {this.state.isManager && (
-              <Nav.Link eventKey="link-3">
-              <Link to={"/users"}>Users</Link>
-              </Nav.Link>
-            )}
-            {!this.state.isManager && (
-              <Nav.Link eventKey="link-4">
-              <Link to={"/users"}>Managers</Link>
-              </Nav.Link>
-            )}
+          <Nav.Item className="col-sm-2">
+
+            <Link to={"/users"}>{this.state.isManager ? "Users" : "Managers"}</Link>
           </Nav.Item>
         )}
 
         {this.state.loggedIn && (
-          <Nav.Item  className="col-sm-2">
-            <Nav.Link eventKey="link-5">
+          <Nav.Item className="col-sm-2">
+            <Link to={"/blogs"}>
               Blog
-            </Nav.Link>
+            </Link>
           </Nav.Item>
         )}
         {
-          <Nav.Item  className="col-sm-2">
-            <Nav.Link eventKey="link-6">
+          <Nav.Item className="col-sm-2">
+            <Link eventKey="link-6">
               Chat
-            </Nav.Link>
+            </Link>
           </Nav.Item>
         }
-        
+
       </Nav>
     );
   }

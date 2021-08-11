@@ -44,6 +44,7 @@ function setCookies(res, user) {
         };
         res.cookie("name", user.name, options);
         res.cookie("userType", user.userType, options);
+        res.cookie("id", user.ID, options);
 }
 
 module.exports = {
