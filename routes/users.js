@@ -6,19 +6,17 @@ var {
         getUserBySessID,
         setCookies,
 } = require("../database/common");
-var { addUser, deleteUser, getUserBy, getUsers } = require("../models/users");
+var { addUser, deleteUser, getUserBy, getUsers, getManagers } = require("../models/users");
 
-router.get("/", async function (req, res, next) {
+router.get("/", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
-        console.log(currentUser);
-        if (isManager(currentUser) < 2) {
-                res.send("You are unauthorized to view this content");
+        if (isManager(currentUser)) {
+                res.json({users: await getUsers()});
                 return;
         }
 
-        //TODO: React page!!
         res.json({
-                users: await getUsers(),
+                users: await getManagers(),
         });
 });
 router.delete("/delete", async function (req, res) {
@@ -48,8 +46,10 @@ router.post("/newUser", async function (req, res) {
         }
         let newUser = {
                 name: body.name,
-                userType: body.type,
+                phone: body.phone,
+                userType: body.type == "Manager"?"M":"D",
                 password: body.password,
+                isAssigned: false,
         };
         addUser(newUser);
         res.json({ success: true, message: "User was created" });
@@ -63,7 +63,6 @@ router.get("/Type", async function (req, res) {
 
 router.post("/authenticate", async function (req, res) {
         let body = req.body;
-        console.log(await getUsers());
         let user = await getUserBy("name", body.name);
         if (!user)
                 res.json({

@@ -68,5 +68,6 @@ module.exports = {
         assignDistributer,
         unassignAll,
         getUserName,
-        getUsers
+        getUsers,
+        getManagers
 };

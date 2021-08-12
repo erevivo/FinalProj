@@ -16,11 +16,11 @@ class Navbar extends Component {
 
   loginSuccess(isAuth) {
     this.setState({ loggedIn: true, isManager: isAuth });
-    this.props.parentSet({ isManager: isAuth })
+    this.props.parentSet(isAuth);
   }
   logout() {
     this.setState({ loggedIn: false });
-    this.props.parentSet({isManager:false})
+    this.props.parentSet(false);
   }
 
 

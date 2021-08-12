@@ -12,7 +12,6 @@ class LoginForm extends Component {
                         username: "",
                         password: "",
                 };
-                this.loginSuccess = this.props.loginFunc;
                 //this.onSubmit = this.onSubmit.bind(this);
         }
 
@@ -70,11 +69,10 @@ class LoginForm extends Component {
                                                                         className="form-control"
                                                                         placeholder="Enter username"
                                                                         onChange={this.onChange}
-                                                                        value={this.state.email}
+                                                                        value={this.state.username}
                                                                         required
                                                                 />
                                                         </div>
-                                                        { /* console.log('error email ::: ' + JSON.stringify(errors)) */}
                                                 </div>
                                                 <div className="form-group has-feedback required">
                                                         <label htmlFor="login-password" className="col-sm-5">Password</label>

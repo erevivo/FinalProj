@@ -6,11 +6,6 @@ class Blog extends Component {
         state = {
                 blogs :[]
         }
-        constructor(props) {
-                super(props);
-                console.log(props);
-                
-        }
         //TODO: make better
         componentDidMount() {
                 fetch("/blogs", {
