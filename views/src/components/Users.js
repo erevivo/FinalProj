@@ -1,13 +1,14 @@
 import React, { Component, useState } from "react";
 import UserCard from "./UserCard";
 import ListGroup from 'react-bootstrap/ListGroup'
-import AddUserModal from "./AddUserModal";
+import MyModal from "./MyModal";
+import AddUser from "./AddUser";
 
-class Users extends Component{
+class Users extends Component {
         state = {
-                users:[]
+                users: []
         }
-        constructor(props){
+        constructor(props) {
                 super(props);
         }
         componentDidMount() {
@@ -19,21 +20,27 @@ class Users extends Component{
                 })
                         .then((res) => res.json())
                         .then((data) => {
-                                        this.setState({ users: data.users })
+                                this.setState({ users: data.users })
 
                         })
                         .catch(() => { console.log("error") });
         }
 
-        render(){
+        render() {
                 return (<div>
                         <ListGroup>
-                                {this.state.users.map(u=><ListGroup.Item><UserCard u={u} isManager={this.props.isManager}/></ListGroup.Item>)}
-                               </ListGroup>
-                               <AddUserModal/>
-                               </div>
-                               
-                        )
+                                {this.state.users.map(u => <ListGroup.Item><UserCard u={u} isManager={this.props.isManager} /></ListGroup.Item>)}
+                        </ListGroup>
+                        <MyModal str="Add User"
+                                content={(show, close) =>
+                                (<AddUser
+                                        showModal={show}
+                                        onClose={close}
+                                />)}
+                        />
+                </div>
+
+                )
         }
 }
 export default Users;

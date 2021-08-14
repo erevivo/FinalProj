@@ -6,9 +6,10 @@ const {
         currentSessions,
         isManager,
 } = require("../database/common");
+const {getUserBySessID } = require("../database/common")
 const { getDistList } = require("../models/distList");
 const {
-        addMultDisributions,
+        addMultDistributions,
         getFirstCity,
         getDistributionsByCity,
         getDistributionsByCityByDate,
@@ -17,11 +18,11 @@ const {
 var router = express.Router();
 
 router.get("/", async function (req, res) {
-        let currentUser = currentSessions[req.sessionID];
+        let currentUser = await getUserBySessID(req.sessionID);
         let currentDate = getCurrentDateTime();
         if (isManager(currentUser)) {
                 let city = getFirstCity();
-                let distributions = getDistributionsByCityByDate(
+                let distributions = await getDistributionsByCityByDate(
                         city,
                         currentDate
                 );
@@ -32,7 +33,7 @@ router.get("/", async function (req, res) {
                         date: currentDate,
                 });
         } else {
-                let distList = getDistList(currentUser.id, currentDate);
+                let distList = await getDistList(currentUser.id, currentDate);
                 if (distList) {
                         res.json({
                                 success: true,
@@ -48,8 +49,8 @@ router.get("/", async function (req, res) {
         }
 });
 
-router.get("/change", function (req, res) {
-        let currentUser = currentSessions[req.sessionID];
+router.get("/change", async function (req, res) {
+        let currentUser = await getUserBySessID(req.sessionID);
         if (isManager(currentUser)) {
                 let city = req.body.city;
                 let distributions = getDistributionsByCityByDate(
@@ -72,7 +73,7 @@ router.get("/change", function (req, res) {
 
 router.post("/create", async function (req, res) {
         let body = req.body;
-        let currentUser = getUserBy("ID", currentSessions[req.sessionID]);
+        let currentUser = await getUserBySessID(req.sessionID);
         if (!isManager(currentUser)) {
                 res.json({
                         success: false,
@@ -106,7 +107,7 @@ router.post("/create", async function (req, res) {
                         },
                 ];
         }
-        addMultDisributions(newDistributions);
+        addMultDistributions(newDistributions);
 
         res.json({ success: true, message: "Distributions created" });
 });

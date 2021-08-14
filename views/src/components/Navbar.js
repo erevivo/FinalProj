@@ -32,12 +32,7 @@ class Navbar extends Component {
         <Nav.Item className="col-sm-2">
           <Link eventKey="link-1" to={"/home"}>Home</Link>
         </Nav.Item>
-        {!this.state.loggedIn && (
-          <Nav.Item className="col-sm-2">
-            <LoginModal loginFunc={this.loginSuccess} />
-          </Nav.Item>
-        )}
-        {this.state.loggedIn && (
+        {this.state.loggedIn ? (
           <Nav.Item className="col-sm-2">
             <Link
               eventKey="link-2"
@@ -46,7 +41,13 @@ class Navbar extends Component {
               Logout
             </Link>
           </Nav.Item>
-        )}
+        ):
+        (
+          <Nav.Item className="col-sm-2">
+            <LoginModal loginFunc={this.loginSuccess} />
+          </Nav.Item>
+        )
+        }
 
         {this.state.loggedIn && (
           <Nav.Item className="col-sm-2">
@@ -62,13 +63,21 @@ class Navbar extends Component {
             </Link>
           </Nav.Item>
         )}
-        {
+        {this.state.loggedIn && (
           <Nav.Item className="col-sm-2">
             <Link eventKey="link-6">
               Chat
             </Link>
           </Nav.Item>
-        }
+        )}
+
+        {this.state.loggedIn && (
+          <Nav.Item className="col-sm-2">
+            <Link eventKey="link-6" to={"/distributions"}>
+              Distributions
+            </Link>
+          </Nav.Item>
+        )}
 
       </Nav>
     );

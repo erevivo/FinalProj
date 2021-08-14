@@ -5,6 +5,7 @@ import Home from './components/Home';
 import "./App.css";
 import Users from './components/Users';
 import Blog from './components/Blog'
+import Distributions from './components/Distributions';
 class App extends Component {
   constructor(props){
     super(props);
@@ -30,6 +31,7 @@ class App extends Component {
             <Route exact path="/home" component={Home}/>
             <Route exact path="/users" render={(props)=>(<Users {...props} isManager={this.state.isManager}/>)}/>
             <Route exact path="/blogs" render={(props)=>(<Blog {...props} isAuth={this.state.isManager}/>)}></Route>
+            <Route exact path="/distributions" render={(props)=>(<Distributions {...props} isManager={this.state.isManager}/>)}></Route>
             
           </Switch>
         </Router>         

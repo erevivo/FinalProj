@@ -21,7 +21,7 @@ router.get("/", async function (req, res) {
 });
 router.delete("/delete", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
-        if (isManager(currentUser) < 2) {
+        if (!isManager(currentUser)) {
                 res.json({
                         success: false,
                         message: "You are unauthorized to delete users",
@@ -35,6 +35,14 @@ router.delete("/delete", async function (req, res) {
 });
 
 router.post("/newUser", async function (req, res) {
+        let currentUser = await getUserBySessID(req.sessionID);
+        if (!isManager(currentUser)) {
+                res.json({
+                        success: false,
+                        message: "You are unauthorized to add users",
+                });
+                return;
+        }
         let body = req.body;
         console.log(body);
         if (await getUserBy("name", body.name)) {

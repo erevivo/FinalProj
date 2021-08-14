@@ -1,13 +1,12 @@
 
 import React, { Component } from "react";
-import AddUser from "./AddUser";
 import { Button } from "react-bootstrap";
 
 const styles = {
         fontFamily: 'sans-serif',
         textAlign: 'center',
 };
-class AddUserModal extends Component {
+class MyModal extends Component {
         constructor(props) {
                 super(props);
                 this.state = {
@@ -25,7 +24,6 @@ class AddUserModal extends Component {
         };
 
         render() {
-                //const isLoggedIn = this.state.isLoggedIn;
                 return (
                         <div style={styles}>
                                 <Button
@@ -33,15 +31,13 @@ class AddUserModal extends Component {
                                         className="btn btn-default"
                                         onClick={this.open}
                                 >
-                                        Login
+                                        {this.props.str}
                                 </Button>
-                                <AddUser
-                                        showModal={this.state.showModal}
-                                        onClose={this.close}
-                                />
+                                {this.props.content(this.state.showModal, this.close)}
+                                
                         </div>
                 );
         }
 }
 
-export default AddUserModal
+export default MyModal

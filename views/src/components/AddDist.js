@@ -4,31 +4,28 @@ import {
         Modal,
 } from "react-bootstrap";
 
-class AddUser extends Component {
+class AddDist extends Component {
         constructor(props) {
                 super(props);
                 this.state = {
                         showModal: false,
-                        name: "",
-                        password: "",
-                        phone: "",
-                        type: ""
+                        city: "",
+                        address: "",
+                        details: ""
                 };
         }
 
         onSubmit = () => {
                 console.log("fetching");
-                fetch("/users/newUser", {
+                fetch("/distributions/create", {
                         method: "POST",
                         headers: {
                                 "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                                name: this.state.name,
-                                password: this.state.password,
-                                phone: this.state.phone,
-                                userType: this.state.type
-
+                                details: this.state.details,
+                                address: this.state.address,
+                                city: this.state.city,
                         }),
                 })
                         .then((res) => res.json())
@@ -62,65 +59,53 @@ class AddUser extends Component {
                                 <form className="form-horizontal form-loanable">
                                         <fieldset>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Username</label>
+                                                        <label htmlFor="name" className="col-sm-5">Details</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
-                                                                <input
+                                                                <textarea
                                                                         type="text"
-                                                                        name="name"
-                                                                        id="name"
+                                                                        name="details"
+                                                                        id="details"
                                                                         className="form-control"
-                                                                        placeholder="Enter username"
+                                                                        placeholder="Enter details"
                                                                         onChange={this.onChange}
-                                                                        value={this.state.name}
+                                                                        value={this.state.details}
                                                                         required
                                                                 />
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">password</label>
+                                                        <label htmlFor="name" className="col-sm-5">Address</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
                                                                         type="text"
-                                                                        name="password"
-                                                                        id="password"
+                                                                        name="address"
+                                                                        id="address"
                                                                         className="form-control"
-                                                                        placeholder="Enter password"
+                                                                        placeholder="Enter Address"
                                                                         onChange={this.onChange}
-                                                                        value={this.state.password}
+                                                                        value={this.state.address}
                                                                         required
                                                                 />
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Phone Number</label>
+                                                        <label htmlFor="name" className="col-sm-5">City</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
                                                                         type="text"
-                                                                        name="email"
-                                                                        id="phone"
+                                                                        name="city"
+                                                                        id="city"
                                                                         className="form-control"
-                                                                        placeholder="Enter phone number"
+                                                                        placeholder="Enter city"
                                                                         onChange={this.onChange}
-                                                                        value={this.state.phone}
+                                                                        value={this.state.city}
                                                                         required
                                                                 />
                                                         </div>
                                                 </div>
-                                                <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Type</label>
-                                                        <div className="col-sm-7">
-                                                                <span className="form-control-feedback" aria-hidden="true"></span>
-                                                                <select required name="type" id="type" onChange={this.onChange} value={this.state.type}>
-                                                                        <option value="M">Manager</option>
-                                                                        <option value="D">Distributer</option>
-                                                                </select>
-                                                        </div>
-                                                </div>
-
-
                                         </fieldset>
                                         <div className="form-action">
                                                 <Button
@@ -142,7 +127,7 @@ class AddUser extends Component {
                                         bsSize="large"
                                 >
                                         <Modal.Header closeButton={true}>
-                                                <h2>Add New User</h2>
+                                                <h2>Add New Distribution</h2>
                                         </Modal.Header>
                                         <Modal.Body>
                                                 {this.renderDetails()}
@@ -156,4 +141,4 @@ class AddUser extends Component {
         }
 }
 
-export default AddUser;
+export default AddDist;

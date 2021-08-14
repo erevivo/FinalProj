@@ -32,12 +32,12 @@ function getDistributionsByDate(datestr) {
         return distributionDB.find({ date: datestr }).toArray();
 }
 
-async function addMultDisributions(distributions) {
+async function addMultDistributions(distributions) {
         firstID = await getNewID();
-        distributions.foreach((dist, index) => {
+        distributions.forEach((dist, index) => {
                 dist.ID = firstID + index;
         });
-        distributionbDB.insertMany(distributions);
+        distributionDB.insertMany(distributions);
 }
 
 async function getNewID() {
@@ -47,7 +47,7 @@ async function getNewID() {
 
 module.exports = {
         getDistributions,
-        addMultDisributions,
+        addMultDistributions,
         getDistributionsFromList,
         getDistributionsByCity,
         getDistributionsByDate,
