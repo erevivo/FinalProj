@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import Nav from "react-bootstrap/Nav";
 import "./Navbar.css";
-import LoginModal from "./Loginmodal";
+import LoginForm from "./LoginForm";
+import MyModal from "./MyModal";
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -41,12 +42,20 @@ class Navbar extends Component {
               Logout
             </Link>
           </Nav.Item>
-        ):
-        (
-          <Nav.Item className="col-sm-2">
-            <LoginModal loginFunc={this.loginSuccess} />
-          </Nav.Item>
-        )
+        ) :
+          (
+            <Nav.Item className="col-sm-2">
+              <MyModal str="Login"
+                content={(show, close) =>
+                (<LoginForm
+                  showModal={show}
+                  onClose={close}
+                  loginFunc={this.loginSuccess}
+                />)}
+              />
+              <MyModal />
+            </Nav.Item>
+          )
         }
 
         {this.state.loggedIn && (

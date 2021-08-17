@@ -30,7 +30,13 @@ class Blog extends Component {
                 <ListGroup>
                         {this.state.blogs.map(b=><ListGroup.Item><BlogItem item={b}/></ListGroup.Item>)}
                        </ListGroup>
-                       {this.props.isAuth && <AddBlog/>}
+                       {this.props.isAuth && <MyModal str="Add User"
+                                content={(show, close) =>
+                                (<AddUser
+                                        showModal={show}
+                                        onClose={close}
+                                />)}
+                        />}
                        </div>
                        
                 )
