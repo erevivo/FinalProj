@@ -14,8 +14,8 @@ async function addMessage(convo, message) {
 }
 
 async function getNewID() {
-        let highestID = await messageDB.find().sort({ ID: -1 }).limit(1);
-        return highestID.ID + 1;
+        let highestID = await messageDB.find().sort({ ID: -1 }).limit(1).toArray();
+        return highestID[0].ID + 1;
 }
 
 module.exports = {

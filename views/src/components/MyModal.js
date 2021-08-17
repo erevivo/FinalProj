@@ -7,12 +7,9 @@ const styles = {
         textAlign: 'center',
 };
 class MyModal extends Component {
-        constructor(props) {
-                super(props);
-                this.state = {
-                        showModal: false,
-                        form: "",
-                };
+        state = {
+                showModal: false,
+                form: "",
         }
 
         close = () => {

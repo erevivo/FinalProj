@@ -1,5 +1,5 @@
 var express = require("express");
-const { getCurrentDateTime, getDateFromString } = require("../database/common");
+const { getCurrentDateTime, getDateTimeFromString } = require("../database/common");
 const { getBlogs, addBlog } = require("../models/blogs");
 const { getUserName } = require("../models/users");
 var router = express.Router();
@@ -12,7 +12,7 @@ router.get("/", async function (req, res) {
         console.log(blogs);
         blogs.sort(
                 (b1, b2) =>
-                        getDateFromString(b1.time) > getDateFromString(b2.time)
+                        getDateTimeFromString(b1.time) > getDateTimeFromString(b2.time)
         );
         res.json({ success: true, blogs: blogs });
 });

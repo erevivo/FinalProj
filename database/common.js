@@ -3,25 +3,41 @@ const currentSessions = {}; //key - sessionID. val - userID
 var { getUserBy } = require("../models/users");
 
 function getCurrentDateTime() {
-        return getStringFromDate(new Date());
+        return getStringFromDateTime(new Date());
+}
+
+function getCurrentDate() {
+        let dateobj = new Date();
+        return dateobj.getDate().toString().padStart(1, '0') +
+                "/" +
+                (dateobj.getMonth() + 1).toString().padStart(1, '0') +
+                "/" +
+                dateobj.getFullYear();
+}
+
+function getStringFromDateTime(dateobj) {
+        let time = dateobj.getHours() + ":" + dateobj.getMinutes();
+        return time + " " + getStringFromDate(dateobj);
 }
 
 function getStringFromDate(dateobj) {
-        let date =
-                dateobj.getDate() +
+        return dateobj.getDate().toString().padStart(1, '0') +
                 "/" +
-                (dateobj.getMonth() + 1) +
+                (dateobj.getMonth() + 1).toString().padStart(1, '0') +
                 "/" +
                 dateobj.getFullYear();
-        let time = dateobj.getHours() + ":" + dateobj.getMinutes();
-        return time + " " + date;
 }
 
-function getDateFromString(dateStr) {
+function getDateTimeFromString(dateStr) {
         let splitDate = dateStr.split(" ");
         let time = splitDate[0];
         let date = splitDate[1].split("/");
         return Date.parse(`${time} ${date[1]}/${date[0]}/${date[2]}`);
+}
+
+function getDateFromString(dateStr) {
+        let splitDate = dateStr.split("/");
+        return new Date(`${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`);
 }
 
 function resetRememberCookies(res) {
@@ -54,6 +70,9 @@ module.exports = {
         getUserBySessID,
         isManager,
         getCurrentDateTime,
-        getDateFromString,
+        getCurrentDate,
         getStringFromDate,
+        getDateTimeFromString,
+        getStringFromDateTime,
+        getDateFromString,
 };

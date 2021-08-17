@@ -2,8 +2,8 @@ var blogDB = require("./mongo")("blogs");
 var { getCurrentDateTime } = require("../database/common");
 
 async function getNewID() {
-        let highestID = await blogDB.find().sort({ ID: -1 }).limit(1);
-        return highestID.ID + 1;
+        let highestID = await blogDB.find().sort({ ID: -1 }).limit(1).toArray();
+        return highestID[0].ID + 1;
 }
 
 async function addBlog(blog) {

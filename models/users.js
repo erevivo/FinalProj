@@ -53,8 +53,8 @@ function getDistributers() {
 }
 
 async function getNewID() {
-        let highestID = await userDB.find().sort({ ID: -1 }).limit(1);
-        return highestID.ID + 1;
+        let highestID = await userDB.find().sort({ ID: -1 }).limit(1).toArray();
+        return highestID[0].ID + 1;
 }
 
 async function getUserName(id) {

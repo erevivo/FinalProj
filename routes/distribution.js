@@ -1,10 +1,11 @@
 var express = require("express");
 const {
         getCurrentDateTime,
-        getDateFromString,
-        getStringFromDate,
-        currentSessions,
-        isManager,
+        getCurrentDate,
+        getDateTimeFromString,
+        getStringFromDateTime,
+        currentSessions,getStringFromDate,
+        isManager,getDateFromString,
 } = require("../database/common");
 const {getUserBySessID } = require("../database/common")
 const { getDistList } = require("../models/distList");
@@ -19,9 +20,10 @@ var router = express.Router();
 
 router.get("/", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
-        let currentDate = getCurrentDateTime();
+        let currentDate = getCurrentDate();
+        console.log(currentDate);
         if (isManager(currentUser)) {
-                let city = getFirstCity();
+                let city = await getFirstCity();
                 let distributions = await getDistributionsByCityByDate(
                         city,
                         currentDate
@@ -82,19 +84,18 @@ router.post("/create", async function (req, res) {
                 return;
         }
         let newDistributions = [];
-        console.log(body);
-
+        let interval = parseInt(body.interval);
         if (body.repetitive) {
-                let today = new Date();
+                let today = getDateFromString(body.date);
                 let endDay = getDateFromString(body.endDay);
                 while (today < endDay) {
-                        newDistributions.append({
+                        newDistributions.push({
                                 details: body.details,
                                 address: body.address,
                                 city: body.city,
                                 date: getStringFromDate(today),
                         });
-                        today.setDate(today.getDate() + body.interval);
+                        today.setDate(today.getDate() + interval);
                 }
         } else {
                 newDistributions = [
@@ -103,7 +104,7 @@ router.post("/create", async function (req, res) {
                                 address: body.address,
                                 city: body.city,
                                 done: false,
-                                date: getCurrentDateTime(),
+                                date: body.date,
                         },
                 ];
         }

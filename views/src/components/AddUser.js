@@ -5,16 +5,13 @@ import {
 } from "react-bootstrap";
 
 class AddUser extends Component {
-        constructor(props) {
-                super(props);
-                this.state = {
-                        showModal: false,
-                        name: "",
-                        password: "",
-                        phone: "",
-                        type: ""
-                };
-        }
+        state = {
+                showModal: false,
+                name: "",
+                password: "",
+                phone: "",
+                type: ""
+        };
 
         onSubmit = () => {
                 console.log("fetching");

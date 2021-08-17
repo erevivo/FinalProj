@@ -45,15 +45,13 @@ class Navbar extends Component {
         ) :
           (
             <Nav.Item className="col-sm-2">
-              <MyModal str="Login"
-                content={(show, close) =>
+              <MyModal str="Login" content={(show, close) =>
                 (<LoginForm
                   showModal={show}
                   onClose={close}
                   loginFunc={this.loginSuccess}
                 />)}
               />
-              <MyModal />
             </Nav.Item>
           )
         }

@@ -5,18 +5,25 @@ import {
 } from "react-bootstrap";
 
 class AddDist extends Component {
-        constructor(props) {
-                super(props);
-                this.state = {
-                        showModal: false,
-                        city: "",
-                        address: "",
-                        details: ""
-                };
-        }
+
+        state = {
+                showModal: false,
+                city: "",
+                address: "",
+                details: "",
+                date: "",
+                repetitive: false,
+                endDay: "",
+                interval: 1
+        };
 
         onSubmit = () => {
                 console.log("fetching");
+                let dateSplit = this.state.date.split("-");
+                let newDate = `${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}`;
+
+                dateSplit = this.state.endDay.split("-");
+                let newEndDay = `${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}`;
                 fetch("/distributions/create", {
                         method: "POST",
                         headers: {
@@ -26,6 +33,10 @@ class AddDist extends Component {
                                 details: this.state.details,
                                 address: this.state.address,
                                 city: this.state.city,
+                                date: newDate,
+                                repetitive: this.state.repetitive,
+                                endDay: newEndDay,
+                                interval: this.state.interval
                         }),
                 })
                         .then((res) => res.json())
@@ -50,6 +61,9 @@ class AddDist extends Component {
                 newState[e.target.id] = e.target.value;
                 this.setState(newState);
         }
+
+        onCheckRepeat = ()=> this.setState({repetitive: !this.state.repetitive});
+
 
 
 
@@ -106,6 +120,35 @@ class AddDist extends Component {
                                                                 />
                                                         </div>
                                                 </div>
+                                                <div className="form-group has-feedback required">
+                                                        <label htmlFor="name" className="col-sm-5">Date</label>
+                                                        <div className="col-sm-7">
+                                                                <span className="form-control-feedback" aria-hidden="true"></span>
+                                                                <input
+                                                                        type="date"
+                                                                        name="date"
+                                                                        id="date"
+                                                                        className="form-control"
+                                                                        onChange={this.onChange}
+                                                                        value={this.state.date}
+                                                                        required
+                                                                />
+                                                        </div>
+                                                </div>
+                                                <div className="form-group has-feedback required">
+                                                        <label htmlFor="name" className="col-sm-5">Repeat</label>
+                                                        <div className="col-sm-7">
+                                                                <span className="form-control-feedback" aria-hidden="true"></span>
+                                                                <input
+                                                                        type="checkbox"
+                                                                        name="repetitive"
+                                                                        id="repetitive"
+                                                                        onChange={this.onCheckRepeat}
+                                                                        checked={this.state.repetitive}
+                                                                />
+                                                        </div>
+                                                </div>
+                                                {this.state.repetitive && this.renderRepetitive()}
                                         </fieldset>
                                         <div className="form-action">
                                                 <Button
@@ -116,6 +159,48 @@ class AddDist extends Component {
                         </div>
                 );
         };
+
+        renderRepetitive = () => {
+                return <div>
+                        <div className="form-group has-feedback required">
+                                <label htmlFor="name" className="col-sm-5">Every</label>
+                                <div className="col-sm-7">
+                                        <span className="form-control-feedback" aria-hidden="true"></span>
+                                        <input
+                                                type="number"
+                                                min="1"
+                                                max="30"
+                                                name="interval"
+                                                id="interval"
+                                                className="form-control"
+                                                onChange={this.onChange}
+                                                value={this.state.interval}
+                                                required
+                                        />
+                                </div>
+                                <label htmlFor="name" className="col-sm-5">Days</label>
+                        </div>
+
+
+                        <div className="form-group has-feedback required">
+                                <label htmlFor="name" className="col-sm-5">Until</label>
+                                <div className="col-sm-7">
+                                        <span className="form-control-feedback" aria-hidden="true"></span>
+                                        <input
+                                                type="date"
+                                                name="endDay"
+                                                id="endDay"
+                                                className="form-control"
+                                                onChange={this.onChange}
+                                                value={this.state.endDay}
+                                                required
+                                        />
+                                </div>
+                        </div>
+
+                </div>
+
+        }
 
         render() {
                 return (

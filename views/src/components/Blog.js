@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ListGroup from 'react-bootstrap/ListGroup'
 import BlogItem from "./BlogItem";
 import AddBlog from "./AddBlog";
+import MyModal from "./MyModal";
 class Blog extends Component {
         state = {
                 blogs :[]
@@ -30,9 +31,10 @@ class Blog extends Component {
                 <ListGroup>
                         {this.state.blogs.map(b=><ListGroup.Item><BlogItem item={b}/></ListGroup.Item>)}
                        </ListGroup>
-                       {this.props.isAuth && <MyModal str="Add User"
+                       {this.props.isAuth && 
+                       <MyModal str="Add Blog"
                                 content={(show, close) =>
-                                (<AddUser
+                                (<AddBlog
                                         showModal={show}
                                         onClose={close}
                                 />)}

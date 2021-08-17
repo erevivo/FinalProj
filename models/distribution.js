@@ -12,8 +12,9 @@ function setDone(distID) {
         });
 }
 
-function getFirstCity(){
-        return distributionDB.findOne({},{_id:0, city:1}).city;
+async function getFirstCity(){
+        let firstDist = await distributionDB.findOne({},{_id:0, city:1});
+        return firstDist.city;
 }
 
 function getDistributionsFromList(distList) {
@@ -37,12 +38,13 @@ async function addMultDistributions(distributions) {
         distributions.forEach((dist, index) => {
                 dist.ID = firstID + index;
         });
+        console.log(distributions);
         distributionDB.insertMany(distributions);
 }
 
 async function getNewID() {
-        let highestID = await distributionDB.find().sort({ ID: -1 }).limit(1);
-        return highestID.ID + 1;
+        let highestID = await distributionDB.find().sort({ ID: -1 }).limit(1).toArray();
+        return highestID[0].ID + 1;
 }
 
 module.exports = {

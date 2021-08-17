@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import getCookie from "../common";
+
+import {
+        Button,
+        Modal,
+} from "react-bootstrap";
 class AddBlog extends Component {
         state = {
                 input: ""
         }
-        constructor() {
-                super();
-                //this.handleChange = this.handleChange.bind(this);
+        constructor(props) {
+                super(props);
                 this.add = this.add.bind(this);
-
         }
 
         add(e) {
@@ -42,7 +45,7 @@ class AddBlog extends Component {
         }
 
 
-        render() {
+        renderDetails = () => {
                 return (
                         <form onSubmit={this.add}>
                                 <label>
@@ -52,6 +55,28 @@ class AddBlog extends Component {
                                 <input type="submit" value="Submit" />
                         </form>
                 );
+        }
+        render(){
+                return (
+                        <div>
+                                <Modal
+                                        show={this.props.showModal}
+                                        onHide={this.props.onClose}
+
+                                        bsSize="large"
+                                >
+                                        <Modal.Header closeButton={true}>
+                                                <h2>Add New Blog</h2>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                                {this.renderDetails()}
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                                <Button onClick={this.props.onClose}>Close</Button>
+                                        </Modal.Footer>
+                                </Modal>
+                        </div>
+                ); 
         }
 }
 
