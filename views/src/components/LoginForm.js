@@ -5,14 +5,10 @@ import {
 } from "react-bootstrap";
 
 class LoginForm extends Component {
-        constructor(props) {
-                super(props);
-                this.state = {
-                        showModal: false,
-                        username: "",
-                        password: "",
-                };
-                //this.onSubmit = this.onSubmit.bind(this);
+        state = {
+                showModal: false,
+                username: "",
+                password: "",
         }
 
         onSubmit = ()=> {

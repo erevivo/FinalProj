@@ -31,13 +31,14 @@ class Users extends Component {
                         <ListGroup>
                                 {this.state.users.map(u => <ListGroup.Item><UserCard u={u} isManager={this.props.isManager} /></ListGroup.Item>)}
                         </ListGroup>
+                        {this.props.isManager&&
                         <MyModal str="Add User"
                                 content={(show, close) =>
                                 (<AddUser
                                         showModal={show}
                                         onClose={close}
                                 />)}
-                        />
+                        />}
                 </div>
 
                 )

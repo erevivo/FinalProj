@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
+import Delete from "./Delete";
+import MyModal from "./MyModal";
 
 
 class UserCard extends Component{
@@ -13,9 +15,15 @@ class UserCard extends Component{
                         <ListGroup.Item>Manager</ListGroup.Item>
                         <ListGroup.Item>Phone Number: {this.props.u.phone}</ListGroup.Item>
                         </ListGroup>
-                        {this.props.isManager? 
-                        <Button variant="primary">Delete</Button>:
-                        <Button variant="primary">Chat</Button>}
+                        {this.props.isManager &&
+                        <MyModal str="Delete"
+                                content={(show, close) =>
+                                (<Delete
+                                        showModal={show}
+                                        onClose={close}
+                                        username={this.props.u.name}
+                                />)}
+                        />}
                       </Card.Body>)
                        
 
@@ -29,7 +37,14 @@ class UserCard extends Component{
                         <ListGroup.Item>Phone Number: {this.props.u.phone}</ListGroup.Item>
                         <ListGroup.Item>{this.props.u.isAssigned?"Is unavailable today":"Is available today"}</ListGroup.Item>
                         </ListGroup>
-                        <Button variant="primary">Delete</Button>
+                        <MyModal str="Delete"
+                                content={(show, close) =>
+                                (<Delete
+                                        showModal={show}
+                                        onClose={close}
+                                        username={this.props.u.name}
+                                />)}
+                        />
                       </Card.Body>);
                        
 

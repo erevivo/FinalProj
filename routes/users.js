@@ -28,9 +28,8 @@ router.delete("/delete", async function (req, res) {
                 });
                 return;
         }
-        let userToDelete = await getUserBy("ID", req.body.ID);
+        let userToDelete = await getUserBy("name", req.body.name);
         deleteUser(userToDelete);
-
         res.json({ success: true, message: "User was deleted" });
 });
 
