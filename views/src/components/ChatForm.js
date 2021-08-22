@@ -32,7 +32,7 @@ class ChatForm extends Component {
                         }
                 });
                 let body;
-                if (d2m){
+                if (this.props.d2m){
                         body = {
                                 did: this.state.sender,
                                 mid: this.state.receiver
@@ -45,7 +45,7 @@ class ChatForm extends Component {
                 }
                 
                 fetch("/messages/convo", {
-                        method: "GET",
+                        method: "POST",
                         headers: {
                                 "Content-Type": "application/json",
                         },
@@ -90,7 +90,7 @@ class ChatForm extends Component {
 
         renderDetails = () => {
                 return (
-                        <form onSubmit={this.add}>
+                        <form onSubmit={this.send}>
                                 <label>
                                         Message:
                                         <textarea value={this.state.input} onChange={this.handleChange} />

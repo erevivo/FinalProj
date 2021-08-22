@@ -23,7 +23,7 @@ var server = http.createServer(app);
 const io = socketIO(server);
 
 io.on('connection', socket=>{
-    socket.on(message=>{
+    socket.on('message', message=>{
         console.log('message: ', message);
         io.sockets.emit('message', message);
     });

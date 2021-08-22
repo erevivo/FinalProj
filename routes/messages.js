@@ -6,12 +6,6 @@ var { addMessage, getMessages } = require("../models/messages");
 
 //TODO: Add Socket.io!!!
 
-const io = require('socket.io')(server);
-io.on('connection', client => {
-  client.on('event', data => { /* … */ });
-  client.on('disconnect', () => { /* … */ });
-});
-server.listen(3000);
 
 router.get("/", function (req, res) {
         let uid = currentSessions[req.sessionID];
@@ -19,7 +13,7 @@ router.get("/", function (req, res) {
         res.json({ success: true, convos: convos });
 });
 
-router.get("/convo", async function (req, res) {
+router.post("/convo", async function (req, res) {
         convo = getConvo(req.body.mid, req.body.did);
         res.json({ success: true, convo: await getMessages(await convo) });
 });

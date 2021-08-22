@@ -4,6 +4,7 @@ import {
         Modal,
 } from "react-bootstrap";
 
+var enabled = false;
 class AddUser extends Component {
         state = {
                 showModal: false,
@@ -14,6 +15,9 @@ class AddUser extends Component {
         };
 
         onSubmit = () => {
+                if (!enabled){
+                        return;
+                }
                 console.log("fetching");
                 fetch("/users/newUser", {
                         method: "POST",
@@ -46,12 +50,16 @@ class AddUser extends Component {
 
 
         onChange = e => {
+                this.enabled(false);
+                console.log(this.state)
                 let newState = {};
                 newState[e.target.id] = e.target.value;
-                this.setState(newState);
+                this.setState(newState, ()=>this.enabled(true));
         }
 
-
+        enabled = (b)=>{
+                enabled = b;
+        }
 
         renderDetails = () => {
                 return (

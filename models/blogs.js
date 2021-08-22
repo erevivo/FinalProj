@@ -18,3 +18,4 @@ function getBlogs() {
 }
 
 module.exports = { getBlogs, addBlog };
+

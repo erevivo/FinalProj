@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
+import ChatForm from "./ChatForm";
 import Delete from "./Delete";
 import MyModal from "./MyModal";
 
@@ -15,7 +16,7 @@ class UserCard extends Component{
                         <ListGroup.Item>Manager</ListGroup.Item>
                         <ListGroup.Item>Phone Number: {this.props.u.phone}</ListGroup.Item>
                         </ListGroup>
-                        {this.props.isManager &&
+                        {this.props.isManager?
                         <MyModal str="Delete"
                                 content={(show, close) =>
                                 (<Delete
@@ -23,7 +24,20 @@ class UserCard extends Component{
                                         onClose={close}
                                         username={this.props.u.name}
                                 />)}
-                        />}
+                        />:
+                        <MyModal str="Chat"
+                                content={(show, close) =>
+                                (<ChatForm
+                                        showModal={show}
+                                        onClose={close}
+                                        destName={this.props.u.name}
+                                        receiver={this.props.u.ID}
+                                        d2m={true}
+                                        
+                                />)}
+                        />
+                        }
+
                       </Card.Body>)
                        
 
