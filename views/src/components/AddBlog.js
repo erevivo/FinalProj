@@ -22,7 +22,7 @@ class AddBlog extends Component {
                                 "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                                writer: getCookie("id"),
+                                writer: getCookie("name"),
                                 text: this.state.input,
                         }),
                 })

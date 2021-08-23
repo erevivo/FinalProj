@@ -35,7 +35,7 @@ router.get("/", async function (req, res) {
                         date: currentDate,
                 });
         } else {
-                let distList = await getDistList(currentUser.id, currentDate);
+                let distList = await getDistList(currentUser.name, currentDate);
                 if (distList) {
                         res.json({
                                 success: true,

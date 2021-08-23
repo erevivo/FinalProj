@@ -6,9 +6,7 @@ var router = express.Router();
 /* GET home page. */
 router.get("/", async function (req, res) {
         let blogs = await getBlogs();
-        for (let i = 0; i < blogs.length; i++){
-                blogs[i].writerName = await getUserName(blogs[i].writerID);
-        }
+        
         console.log(blogs);
         blogs.sort(
                 (b1, b2) =>
@@ -19,7 +17,7 @@ router.get("/", async function (req, res) {
 
 router.post("/create", function (req, res) {
         newBlog = {
-                writerID: parseInt(req.body.writer),
+                writerName: req.body.writer,
                 text: req.body.text,
                 time: getCurrentDateTime(),
         };

@@ -6,7 +6,7 @@ async function addConvo(convo) {
 
 async function addMessageToConvo(convo, message) {
         convo.messages.push(message.ID);
-        let convoToUpdate = { mid: convo.mid, did: convo.did };
+        let convoToUpdate = { manName: convo.mname, distName: convo.dname };
         let newList = { $set: { messages: convo.messages } };
         convoDB.updateOne(convoToUpdate, newList, function (err, res) {
                 if (err) throw err;
@@ -14,14 +14,14 @@ async function addMessageToConvo(convo, message) {
         });
 }
 
-async function getConvo(mid, did) {
-        return convoDB.findOne({ mid: mid, did: did });
+async function getConvo(mname, dname) {
+        return convoDB.findOne({ manName: mname, distName: dname });
 }
 
-function getConvos(id) {
+function getConvos(name) {
         return convoDB
                 .find({
-                        $or: [{ mid: id }, { did: id }],
+                        $or: [{ manName: name }, { distName: name }],
                 })
                 .toArray();
 }

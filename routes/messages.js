@@ -8,13 +8,13 @@ var { addMessage, getMessages } = require("../models/messages");
 
 
 router.get("/", async function (req, res) {
-        let uid = currentSessions[req.sessionID];
-        convos = await getConvos(uid);
+        let username = currentSessions[req.sessionID];
+        convos = await getConvos(username);
         res.json({ success: true, convos: convos });
 });
 
 router.post("/convo", async function (req, res) {
-        convo = await getConvo(req.body.mid, req.body.did);
+        convo = await getConvo(req.body.mName, req.body.dName);
         res.json({ success: true, convo: convo? await getMessages(convo):[] });
 });
 
@@ -27,8 +27,8 @@ router.post("/create", async function (req, res) {
         if (req.body.isNew) {
                 console.log("this is a new conversation");
                 convo = {
-                        mid: req.body.mid,
-                        did: parseInt(req.body.did),
+                        manName: req.body.mName,
+                        distName: req.body.dName,
                         messages:[]
                 };
                 addConvo(convo);
@@ -36,7 +36,7 @@ router.post("/create", async function (req, res) {
                 res.json({ success: true, newConvo: convo });
                 return;
         }
-        convo = await getConvo(req.body.mid, req.body.did);
+        convo = await getConvo(req.body.mName, req.body.dName);
         addMessage(convo, newMessage);
         res.json({ success: true , newMessage: newMessage});
 });

@@ -1,7 +1,7 @@
 var distListDB = require("./mongo")("distList");
 
-function getDistList(id, datestr) {
-        return distListDB.findOne({ assignee: id , date:datestr});
+function getDistList(name, datestr) {
+        return distListDB.findOne({ assignee: name , date:datestr});
 }
 
 async function createList(distList) {

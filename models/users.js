@@ -1,12 +1,11 @@
 var userDB = require("./mongo")("users");
 
 async function addUser(user) {
-        user.ID = await getNewID();
         userDB.insertOne(user);
 }
 
 function deleteUser(user) {
-        userDB.deleteOne({ ID: user.ID }, function (err, res) {
+        userDB.deleteOne({ name: user.name }, function (err, res) {
                 if (err) throw err;
                 console.log("1 document updated");
         });
@@ -16,15 +15,15 @@ function getUsers() {
         return userDB.find({}).toArray();
 }
 
-function assignDistributer(id) {
+function assignDistributer(name) {
         let newVal = { $set: { assigned: true } };
-        convoDB.updateOne({ ID: id }, newVal, function (err, res) {
+        convoDB.updateOne({ name: name }, newVal, function (err, res) {
                 if (err) throw err;
                 console.log("1 document updated");
         });
 }
 
-function unassignAll(id) {
+function unassignAll() {
         let newVal = { $set: { assigned: false } };
         convoDB.updateMany({ usetType: "D" }, newVal, function (err, res) {
                 if (err) throw err;
@@ -47,22 +46,12 @@ function getDistributers() {
         return userDB.find({ userType: "D" }).toArray();
 }
 
-async function getNewID() {
-        let highestID = await userDB.find().sort({ ID: -1 }).limit(1).toArray();
-        return highestID[0].ID + 1;
-}
-
-async function getUserName(id) {
-        let user = await userDB.findOne({ ID: id }, { _id: 0, name: 1 });
-        return user.name;
-}
 module.exports = {
         addUser,
         deleteUser,
         getUserBy,
         assignDistributer,
         unassignAll,
-        getUserName,
         getUsers,
         getManagers
 };

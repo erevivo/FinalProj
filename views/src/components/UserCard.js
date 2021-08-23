@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
+import getCookie from "../common";
 import ChatForm from "./ChatForm";
 import Delete from "./Delete";
 import MyModal from "./MyModal";
@@ -31,10 +32,8 @@ class UserCard extends Component{
                                 (<ChatForm
                                         showModal={show}
                                         onClose={close}
-                                        destName={this.props.u.name}
-                                        receiver={this.props.u.ID}
-                                        d2m={true}
-                                        
+                                        sender={getCookie("name")}
+                                        receiver={this.props.u.name}                                        
                                 />)}
                         />
                         }

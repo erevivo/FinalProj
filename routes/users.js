@@ -83,7 +83,7 @@ router.post("/authenticate", async function (req, res) {
                         user: user,
                         isAuth: isManager(user),
                 };
-                currentSessions[req.sessionID] = user.ID;
+                currentSessions[req.sessionID] = user.name;
                 res.json(jsonToSend);
         } else {
                 res.json({ success: false, message: "Wrong Password" });

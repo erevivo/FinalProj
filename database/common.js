@@ -40,18 +40,13 @@ function getDateFromString(dateStr) {
         return new Date(`${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`);
 }
 
-function resetRememberCookies(res) {
-        res.cookie("remember", false);
-        res.cookie("rEmail", "");
-        res.cookie("rPassword", "");
-}
 
 function isManager(user) {
         return user.userType == "M";
 }
 
 async function getUserBySessID(value) {
-        return await getUserBy("ID", currentSessions[value]);
+        return await getUserBy("name", currentSessions[value]);
 }
 
 function setCookies(res, user) {
@@ -60,7 +55,6 @@ function setCookies(res, user) {
         };
         res.cookie("name", user.name, options);
         res.cookie("userType", user.userType, options);
-        res.cookie("id", user.ID, options);
 }
 
 module.exports = {
