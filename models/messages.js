@@ -7,6 +7,7 @@ function getMessages(convo) {
 }
 
 async function addMessage(convo, message) {
+        console.log(convo);
         message.ID = await getNewID();
         message.time = getCurrentDateTime();
         messageDB.insertOne(message);

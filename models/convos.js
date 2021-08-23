@@ -6,7 +6,7 @@ async function addConvo(convo) {
 
 async function addMessageToConvo(convo, message) {
         convo.messages.push(message.ID);
-        let convoToUpdate = { manName: convo.mname, distName: convo.dname };
+        let convoToUpdate = { manName: convo.manName, distName: convo.distName };
         let newList = { $set: { messages: convo.messages } };
         convoDB.updateOne(convoToUpdate, newList, function (err, res) {
                 if (err) throw err;

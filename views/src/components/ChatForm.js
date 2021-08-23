@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import getCookie from "../common";
 import ListGroup from 'react-bootstrap/ListGroup'
-
+import socketIOClient from 'socket.io-client';
 
 import {
         Button,
@@ -20,6 +20,16 @@ class ChatForm extends Component {
         }
         componentDidMount = () => {
 
+                const socket = socketIOClient(this.state.endpoint);
+                socket.on('message', message => {
+                        console.log(message);
+                        if (message.receiver === getCookie("name")) {
+                                let arr = this.state.messages;
+                                arr.push(message);
+                                this.setState({ messages: arr });
+                        }
+                });
+
 
                 let f = () => {
                         fetch("/messages/convo", {
@@ -30,18 +40,19 @@ class ChatForm extends Component {
                                 body: JSON.stringify(this.state.d2m ?
                                         {
                                                 mName: this.state.receiver,
-                                                dName: this.state.sender
+                                                dName: this.state.sender,
+
                                         } :
                                         {
                                                 mName: this.state.sender,
-                                                dName: this.state.receiver
+                                                dName: this.state.receiver,
                                         }),
                         })
                                 .then((res) => res.json())
                                 .then((data) => {
                                         //loading(false);
                                         if (data.success) {
-                                                this.setState({ messages: data.convo });
+                                                this.setState({ messages: data.messages });
                                         }
 
                                 })
@@ -73,7 +84,8 @@ class ChatForm extends Component {
                                 text: this.state.chatMessage,
                                 mName: this.state.d2m ? this.state.receiver : this.state.sender,
                                 dName: this.state.d2m ? this.state.sender : this.state.receiver,
-                                isNew: this.state.messages.length === 0
+                                isNew: this.state.messages.length === 0,
+                                d2m: this.state.d2m
                         }),
                 })
                         .then((res) => res.json())
@@ -82,11 +94,17 @@ class ChatForm extends Component {
                                 if (data.success) {
                                         let arr = this.state.messages;
                                         arr.push(data.newMessage);
+                                        let socketMessage = { ...data.newMessage };
+                                        socketMessage.receiver = this.state.receiver;
                                         this.setState({ messages: arr, chatMessage: '' });
+                                        const socket = socketIOClient(this.state.endpoint);
+                                        socket.emit('message', socketMessage);
                                 }
 
                         })
                         .catch();
+
+
         }
 
 
@@ -94,6 +112,16 @@ class ChatForm extends Component {
 
         handleChange = e => {
                 this.setState({ chatMessage: e.target.value });
+        }
+
+        calculateSender = message => {
+                console.log(message);
+                if (message.d2m) {
+                        return this.state.d2m ? this.state.sender : this.state.receiver;
+                }
+                else {
+                        return this.state.d2m ? this.state.receiver : this.state.sender;
+                }
         }
 
 
@@ -111,7 +139,7 @@ class ChatForm extends Component {
 
         renderConvo = () => {
                 return (<ListGroup>
-                        {this.state.messages.map(m => <ListGroup.Item><ChatItem item={m} /></ListGroup.Item>)}
+                        {this.state.messages.map(m => <ListGroup.Item><ChatItem item={m} sender={this.calculateSender(m)} /></ListGroup.Item>)}
                 </ListGroup>)
         }
         render() {

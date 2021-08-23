@@ -6,6 +6,7 @@ import "./App.css";
 import Users from './components/Users';
 import Blog from './components/Blog'
 import Distributions from './components/Distributions';
+import ConvoList from './components/Convos';
 
 class App extends Component {
   constructor(props){
@@ -33,6 +34,8 @@ class App extends Component {
             <Route exact path="/users" render={(props)=>(<Users {...props} isManager={this.state.isManager}/>)}/>
             <Route exact path="/blogs" render={(props)=>(<Blog {...props} isAuth={this.state.isManager}/>)}></Route>
             <Route exact path="/distributions" render={(props)=>(<Distributions {...props} isManager={this.state.isManager}/>)}></Route>
+            <Route exact path="/convos" render={(props)=>(<ConvoList {...props}/>)}></Route>
+
             
           </Switch>
         </Router>         

@@ -5,7 +5,7 @@ class ChatItem extends Component {
                 return (
 
                                 <Card>
-                                        <Card.Header>{this.props.item.time}</Card.Header>
+                                        <Card.Header>Sent by {this.props.sender} at {this.props.item.time}</Card.Header>
                                         <Card.Body>
                                                 <blockquote className="blockquote mb-0">
                                                         <p>

@@ -60,7 +60,6 @@ function setCookies(res, user) {
 module.exports = {
         currentSessions,
         setCookies,
-        resetRememberCookies,
         getUserBySessID,
         isManager,
         getCurrentDateTime,

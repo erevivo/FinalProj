@@ -15,13 +15,14 @@ router.get("/", async function (req, res) {
 
 router.post("/convo", async function (req, res) {
         convo = await getConvo(req.body.mName, req.body.dName);
-        res.json({ success: true, convo: convo? await getMessages(convo):[] });
+        res.json({ success: true, messages: convo? await getMessages(convo):[] });
 });
 
 router.post("/create", async function (req, res) {
         let newMessage = {
                 time: getCurrentDateTime(),
                 text: req.body.text,
+                d2m: req.body.d2m
         };
         let convo;
         if (req.body.isNew) {
@@ -31,9 +32,9 @@ router.post("/create", async function (req, res) {
                         distName: req.body.dName,
                         messages:[]
                 };
-                addConvo(convo);
+                await addConvo(convo);
                 addMessage(convo, newMessage);
-                res.json({ success: true, newConvo: convo });
+                res.json({ success: true, newMessage: newMessage });
                 return;
         }
         convo = await getConvo(req.body.mName, req.body.dName);

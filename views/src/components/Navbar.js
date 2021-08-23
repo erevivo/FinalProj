@@ -72,7 +72,7 @@ class Navbar extends Component {
         )}
         {this.state.loggedIn && (
           <Nav.Item className="col-sm-2">
-            <Link eventKey="link-6">
+            <Link eventKey="link-6" to={"/convos"}>
               Chat
             </Link>
           </Nav.Item>
