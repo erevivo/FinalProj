@@ -29,6 +29,7 @@ class Delete extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         console.log("Deleted user");
+                                        this.props.removeUser(this.props.username)
                                         this.props.onClose();
                                 } else {
                                         console.log("Error:", data.message);

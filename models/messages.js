@@ -7,15 +7,20 @@ function getMessages(convo) {
 }
 
 async function addMessage(convo, message) {
-        message.ID = getNewID();
+        message.ID = await getNewID();
         message.time = getCurrentDateTime();
         messageDB.insertOne(message);
         addMessageToConvo(convo, message);
 }
 
 async function getNewID() {
-        let highestID = await messageDB.find().sort({ ID: -1 }).limit(1).toArray();
-        return highestID[0].ID + 1;
+        try{
+                let highestID = await messageDB.find().sort({ ID: -1 }).limit(1).toArray();
+                return highestID[0].ID + 1;
+        }
+        catch{
+                return 0;
+        }
 }
 
 module.exports = {

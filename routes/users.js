@@ -43,7 +43,6 @@ router.post("/newUser", async function (req, res) {
                 return;
         }
         let body = req.body;
-        console.log(body);
         if (await getUserBy("name", body.name)) {
                 res.json({
                         success: false,
@@ -58,13 +57,12 @@ router.post("/newUser", async function (req, res) {
                 password: body.password,
                 isAssigned: false,
         };
-        addUser(newUser);
-        res.json({ success: true, message: "User was created" });
+        await addUser(newUser);
+        res.json({ success: true, message: "User was created", user:newUser });
 });
 
 router.get("/Type", async function (req, res) {
         currentUser = await getUserBySessID(req.sessionID);
-        console.log(currentUser);
         res.json({ isAuth: isManager(currentUser) });
 });
 

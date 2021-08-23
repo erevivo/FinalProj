@@ -8,10 +8,8 @@ class Users extends Component {
         state = {
                 users: []
         }
-        constructor(props) {
-                super(props);
-        }
         componentDidMount() {
+                console.log("whats aup?")
                 fetch("/users", {
                         method: "GET",
                         headers: {
@@ -26,10 +24,23 @@ class Users extends Component {
                         .catch(() => { console.log("error") });
         }
 
+        removeUser = (userName)=>{
+                let newList = this.state.users.filter(u=>u.name!==userName);
+                this.setState({users:newList})
+        }
+        
+        addUser = user=>{
+                console.log(user);
+                let newList = this.state.users;
+                newList.push(user);
+                this.setState({users: newList});
+        }
+        
+
         render() {
                 return (<div>
                         <ListGroup>
-                                {this.state.users.map(u => <ListGroup.Item><UserCard u={u} isManager={this.props.isManager} /></ListGroup.Item>)}
+                                {this.state.users.map(u => <ListGroup.Item><UserCard u={u} isManager={this.props.isManager} removeUser={this.removeUser} /></ListGroup.Item>)}
                         </ListGroup>
                         {this.props.isManager&&
                         <MyModal str="Add User"
@@ -37,6 +48,7 @@ class Users extends Component {
                                 (<AddUser
                                         showModal={show}
                                         onClose={close}
+                                        addFn={this.addUser}
                                 />)}
                         />}
                 </div>

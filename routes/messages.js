@@ -7,15 +7,15 @@ var { addMessage, getMessages } = require("../models/messages");
 //TODO: Add Socket.io!!!
 
 
-router.get("/", function (req, res) {
+router.get("/", async function (req, res) {
         let uid = currentSessions[req.sessionID];
-        convos = getConvos(uid);
+        convos = await getConvos(uid);
         res.json({ success: true, convos: convos });
 });
 
 router.post("/convo", async function (req, res) {
-        convo = getConvo(req.body.mid, req.body.did);
-        res.json({ success: true, convo: await getMessages(await convo) });
+        convo = await getConvo(req.body.mid, req.body.did);
+        res.json({ success: true, convo: convo? await getMessages(convo):[] });
 });
 
 router.post("/create", async function (req, res) {
@@ -25,18 +25,20 @@ router.post("/create", async function (req, res) {
         };
         let convo;
         if (req.body.isNew) {
+                console.log("this is a new conversation");
                 convo = {
                         mid: req.body.mid,
-                        did: req.body.did,
+                        did: parseInt(req.body.did),
+                        messages:[]
                 };
                 addConvo(convo);
-                addMessage(covo, newMessage);
-                req.json({ success: true, newConvo: convo });
+                addMessage(convo, newMessage);
+                res.json({ success: true, newConvo: convo });
                 return;
         }
-        convo = getConvo(req.body.mid, req.body.did);
+        convo = await getConvo(req.body.mid, req.body.did);
         addMessage(convo, newMessage);
-        res.json({ success: true });
+        res.json({ success: true , newMessage: newMessage});
 });
 
 module.exports = router;

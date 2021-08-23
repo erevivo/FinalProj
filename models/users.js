@@ -1,9 +1,7 @@
 var userDB = require("./mongo")("users");
 
 async function addUser(user) {
-        console.log(user);
         user.ID = await getNewID();
-        console.log(user);
         userDB.insertOne(user);
 }
 
@@ -37,10 +35,7 @@ function unassignAll(id) {
 async function getUserBy(key, value) {
         qry = {};
         qry[key] = value;
-        //console.log(qry);
-        console.log(userDB);
         let returnUser = await userDB.findOne(qry);
-        console.log(returnUser);
         return returnUser;
 }
 

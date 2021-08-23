@@ -23,6 +23,7 @@ class UserCard extends Component{
                                         showModal={show}
                                         onClose={close}
                                         username={this.props.u.name}
+                                        removeUser={this.props.removeUser}
                                 />)}
                         />:
                         <MyModal str="Chat"
@@ -57,6 +58,7 @@ class UserCard extends Component{
                                         showModal={show}
                                         onClose={close}
                                         username={this.props.u.name}
+                                        removeUser={this.props.removeUser}
                                 />)}
                         />
                       </Card.Body>);

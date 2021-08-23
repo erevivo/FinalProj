@@ -1,90 +1,105 @@
 import React, { Component } from "react";
 import getCookie from "../common";
-import socketIOClient from 'socket.io-client';
+import ListGroup from 'react-bootstrap/ListGroup'
+
 
 import {
         Button,
         Modal,
 } from "react-bootstrap";
-import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
+import ChatItem from "./ChatItem";
 
 class ChatForm extends Component {
         state = {
                 chatMessage: "",
                 endpoint:'localhost:8072/',
                 messages: [],
-                sender:getCookie("id"),
+                sender: parseInt(getCookie("id")),
                 receiver:0,
+                did:0,
+                mid:0,
                 d2m: getCookie("userType")==="D"
         }
-        constructor(props){
-                super(props);
-                this.setState({receiver: this.props.receiver})
-
-        }
         componentDidMount = ()=>{
-                const socket = socketIOClient(this.state.endpoint);
-                socket.on('message', message=>{
-                        if (message.name !== getCookie("name")){
-                                let arr = this.state.messages;
-                                arr.push(message);
-                                this.setState({messages: arr});
-                        }
-                });
-                let body;
-                if (this.props.d2m){
-                        body = {
-                                did: this.state.sender,
-                                mid: this.state.receiver
-                        }
-                }else{
-                        body = {
-                                did: this.state.receiver,
-                                mid: this.state.sender
-                        } 
-                }
                 
-                fetch("/messages/convo", {
+                
+                let f = ()=>{fetch("/messages/convo", {
                         method: "POST",
                         headers: {
                                 "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(body),
+                        body: JSON.stringify({
+                                did: this.state.did,
+                                mid: this.state.mid
+                        }),
                 })
                         .then((res) => res.json())
                         .then((data) => {
                                 //loading(false);
                                 if (data.success) {
-                                        this.setState({ chatMessages: data.convo });
+                                        this.setState({ messages: data.convo });
                                 }
 
                         })
-                        .catch();
+                        .catch();}
+                if (this.props.d2m){
+                        this.setState({
+                                did: this.state.sender,
+                                mid: this.props.receiver,
+                                receiver: this.props.receiver
+                        }, f);
+                }else{
+                        this.setState({
+                                did: this.props.receiver,
+                                mid: this.state.sender,
+                                receiver: this.props.receiver
+                        }, f);
+                }
+                
+                
 
         }
 
-        send = ()=> {
+        send = (e)=> {
+                e.preventDefault();
                 let newMessage={
                         type:'send',
                         content:this.state.chatMessage,
                         name:getCookie("name"),
-
                 }
-                let arr = this.state.messages;
-                arr.push(newMessage);
-                this.setState({messages: arr});
-                this.setState({chatMessage:''});
-                let sendMessage = {...newMessage};
-                sendMessage.type = "receive";
-                const socket = socketIOClient(this.state.endpoint);
-                socket.emit('message', sendMessage);
+                
+                // let sendMessage = {...newMessage};
+                // sendMessage.type = "receive";
+                fetch("/messages/create", {
+                        method: "POST",
+                        headers: {
+                                "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                              text: this.state.chatMessage,
+                              mid: this.state.mid,
+                              did: this.state.did,
+                              isNew: this.state.messages.length==1
+                        }),
+                })
+                        .then((res) => res.json())
+                        .then((data) => {
+                                //loading(false);
+                                if (data.success) {
+                                        let arr = this.state.messages;
+                                        arr.push(data.newMessage);
+                                        this.setState({ messages: arr , chatMessage:''});
+                                }
+
+                        })
+                        .catch();
         }
 
 
 
 
         handleChange = e =>{
-                this.setState({ input: e.target.value });
+                this.setState({ chatMessage: e.target.value });
         }
 
 
@@ -93,11 +108,17 @@ class ChatForm extends Component {
                         <form onSubmit={this.send}>
                                 <label>
                                         Message:
-                                        <textarea value={this.state.input} onChange={this.handleChange} />
+                                        <textarea value={this.state.chatMessage} onChange={this.handleChange} />
                                 </label>
                                 <input type="submit" value="Submit" />
                         </form>
                 );
+        }
+
+        renderConvo = ()=>{
+                return (<ListGroup>
+                        {this.state.messages.map(m=><ListGroup.Item><ChatItem item={m}/></ListGroup.Item>)}
+                       </ListGroup>)
         }
         render(){
                 return (
@@ -112,6 +133,10 @@ class ChatForm extends Component {
                                                 <h2>Chat with {this.props.destname}</h2>
                                         </Modal.Header>
                                         <Modal.Body>
+                                                {this.renderConvo()}
+                                        </Modal.Body>
+                                        <Modal.Body>
+                                                
                                                 {this.renderDetails()}
                                         </Modal.Body>
                                         <Modal.Footer>

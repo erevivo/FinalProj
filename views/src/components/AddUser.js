@@ -4,20 +4,16 @@ import {
         Modal,
 } from "react-bootstrap";
 
-var enabled = false;
 class AddUser extends Component {
         state = {
                 showModal: false,
                 name: "",
                 password: "",
                 phone: "",
-                type: ""
+                type: "D"
         };
 
         onSubmit = () => {
-                if (!enabled){
-                        return;
-                }
                 console.log("fetching");
                 fetch("/users/newUser", {
                         method: "POST",
@@ -37,6 +33,7 @@ class AddUser extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         console.log(data.message);
+                                        this.props.addFn(data.user);
                                         this.props.onClose();
 
                                 } else {
@@ -50,16 +47,12 @@ class AddUser extends Component {
 
 
         onChange = e => {
-                this.enabled(false);
                 console.log(this.state)
                 let newState = {};
                 newState[e.target.id] = e.target.value;
-                this.setState(newState, ()=>this.enabled(true));
+                this.setState(newState);
         }
 
-        enabled = (b)=>{
-                enabled = b;
-        }
 
         renderDetails = () => {
                 return (
@@ -120,7 +113,7 @@ class AddUser extends Component {
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <select required name="type" id="type" onChange={this.onChange} value={this.state.type}>
                                                                         <option value="M">Manager</option>
-                                                                        <option value="D">Distributer</option>
+                                                                        <option value="D" selected={true}>Distributer</option>
                                                                 </select>
                                                         </div>
                                                 </div>

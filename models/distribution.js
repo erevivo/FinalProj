@@ -38,7 +38,6 @@ async function addMultDistributions(distributions) {
         distributions.forEach((dist, index) => {
                 dist.ID = firstID + index;
         });
-        console.log(distributions);
         distributionDB.insertMany(distributions);
 }
 
