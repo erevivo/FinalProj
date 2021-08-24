@@ -24,7 +24,7 @@ function assignDistributer(name) {
 }
 
 function unassignAll() {
-        let newVal = { $set: { assigned: false } };
+        let newVal = { $set: { isAssigned: false } };
         convoDB.updateMany({ usetType: "D" }, newVal, function (err, res) {
                 if (err) throw err;
                 console.log("1 document updated");
@@ -42,8 +42,8 @@ function getManagers() {
         return userDB.find({ userType: "M" }).toArray();
 }
 
-function getDistributers() {
-        return userDB.find({ userType: "D" }).toArray();
+function getAvailableDists() {
+        return userDB.find({ userType: "D", isAssigned: false }).toArray();
 }
 
 module.exports = {
@@ -53,5 +53,6 @@ module.exports = {
         assignDistributer,
         unassignAll,
         getUsers,
-        getManagers
+        getManagers,
+        getAvailableDists
 };

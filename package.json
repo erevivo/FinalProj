@@ -15,6 +15,7 @@
     "mongodb": "^3.6.10",
     "morgan": "~1.9.1",
     "node-cron": "^3.0.0",
+    "node-geocoder": "^3.27.0",
     "react-login-modal": "^1.2.1",
     "socket.io": "^4.1.3"
   },

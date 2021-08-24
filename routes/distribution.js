@@ -1,13 +1,22 @@
 var express = require("express");
+const NodeGeocoder = require('node-geocoder');
+ 
+const options = {
+  provider: 'here',
+  apiKey: 'fJdF-AHUwciourV5CmyISbTHrojNZufpiYQHFxwy_wc', // for Mapquest, OpenCage, Google Premier
+  formatter: null // 'gpx', 'string', ...
+};
+const geocoder = NodeGeocoder(options);
+
 const {
         getCurrentDateTime,
         getCurrentDate,
         getDateTimeFromString,
         getStringFromDateTime,
-        currentSessions,getStringFromDate,
-        isManager,getDateFromString,
+        currentSessions, getStringFromDate,
+        isManager, getDateFromString,
 } = require("../database/common");
-const {getUserBySessID } = require("../database/common")
+const { getUserBySessID } = require("../database/common")
 const { getDistList } = require("../models/distList");
 const {
         addMultDistributions,
@@ -16,6 +25,8 @@ const {
         getDistributionsByCityByDate,
         getDistributionsFromList,
 } = require("../models/distribution");
+const { getAvailableDists } = require("../models/users");
+const { default: Distributions } = require("../views/src/components/Distributions");
 var router = express.Router();
 
 router.get("/", async function (req, res) {
@@ -33,6 +44,7 @@ router.get("/", async function (req, res) {
                         distributions: distributions,
                         city: city,
                         date: currentDate,
+                        distributers: await getAvailableDists()
                 });
         } else {
                 let distList = await getDistList(currentUser.name, currentDate);
@@ -51,11 +63,11 @@ router.get("/", async function (req, res) {
         }
 });
 
-router.get("/change", async function (req, res) {
+router.post("/change", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
         if (isManager(currentUser)) {
                 let city = req.body.city;
-                let distributions = getDistributionsByCityByDate(
+                let distributions = await getDistributionsByCityByDate(
                         city,
                         req.body.date
                 );
@@ -71,6 +83,30 @@ router.get("/change", async function (req, res) {
                         message: "Distributors cannot view other dates or cities",
                 });
         }
+});
+
+router.post("/assign", async function (req, res) {
+        let currentUser = await getUserBySessID(req.sessionID);
+        if (!isManager(currentUser)) {
+                res.json({
+                        success: false,
+                        message: "You are unauthorized to assign distributions",
+                });
+                return;
+        }
+
+        let distributions = await getDistributionsByCityByDate(body.city, getCurrentDate());
+        locations = []
+        distributions.forEach(async d=>{
+                let loc = await geocoder.geocode(`${d.address} ${d.city}`);
+                locations.push({
+                        lat: loc[0].latitude,
+                        long: loc[0].longitude,
+                        ID: d.ID
+                })
+        })
+        console.log(locations);
+        res.json({ success: true, message: "Fuck You" });
 });
 
 router.post("/create", async function (req, res) {

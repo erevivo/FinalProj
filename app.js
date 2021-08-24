@@ -6,6 +6,7 @@ var logger = require("morgan");
 const cron = require("node-cron");
 
 const session = require("express-session");
+const { errorMonitor } = require("events");
 
 var app = express();
 
@@ -16,7 +17,6 @@ function setRouter(route, router) {
 function setControllers() {
         //TODO: fix the routers
         app.use("/", express.static(path.join(__dirname, 'views', 'build')));
-        setRouter("/", "./routes/index");
         setRouter("/users", "./routes/users");
         setRouter("/distributions", "./routes/distribution");
         setRouter("/blogs", "./routes/blog");
@@ -27,9 +27,8 @@ function setControllers() {
         app.emit("ready");
 }
 require("./models/mongo")(setControllers);
-app.use("/", express.static(path.join(__dirname, 'views', 'build')));
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
+// app.set("views", path.join(__dirname, "views"));
 
 // app.use(function(req, res, next) {
 //     setTimeout(next, 1000);
@@ -50,13 +49,14 @@ function setErrHandling() {
         });
         // error handler
         app.use(function (err, req, res, next) {
+                console.log(err);
                 // set locals, only providing error in development
                 res.locals.message = err.message;
                 res.locals.error =
                         req.app.get("env") === "development" ? err : {};
                 // render the error page
                 res.status(err.status || 500);
-                res.json({err:"err"});
+                res.json({err:err});
         });
 }
 
