@@ -95,7 +95,7 @@ class Distributions extends Component {
 
         changeDate = e => {
                 let dateArr = e.target.value.split("-");
-                this.setState({ date: `${parseInt(dateArr[2])}/${parseInt(dateArr[1])}/${dateArr[0]}` },
+                this.setState({ date: `${dateArr[2]}/${dateArr[1]}/${dateArr[0]}` },
                         this.fetchChange);
                 console.log(this.state);
 

@@ -1,13 +1,12 @@
 var express = require("express");
 const NodeGeocoder = require('node-geocoder');
- 
+
 const options = {
-  provider: 'here',
-  apiKey: 'fJdF-AHUwciourV5CmyISbTHrojNZufpiYQHFxwy_wc', // for Mapquest, OpenCage, Google Premier
-  formatter: null // 'gpx', 'string', ...
+        provider: 'openmapquest',
+        apiKey: 'bpJv6Pv9c0J9TourCzB24vlzBSta7kgY', // for Mapquest, OpenCage, Google Premier
 };
 const geocoder = NodeGeocoder(options);
-
+const kmeans = require("node-kmeans")
 const {
         getCurrentDateTime,
         getCurrentDate,
@@ -26,7 +25,6 @@ const {
         getDistributionsFromList,
 } = require("../models/distribution");
 const { getAvailableDists } = require("../models/users");
-const { default: Distributions } = require("../views/src/components/Distributions");
 var router = express.Router();
 
 router.get("/", async function (req, res) {
@@ -87,6 +85,7 @@ router.post("/change", async function (req, res) {
 
 router.post("/assign", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
+
         if (!isManager(currentUser)) {
                 res.json({
                         success: false,
@@ -94,18 +93,25 @@ router.post("/assign", async function (req, res) {
                 });
                 return;
         }
-
-        let distributions = await getDistributionsByCityByDate(body.city, getCurrentDate());
-        locations = []
-        distributions.forEach(async d=>{
-                let loc = await geocoder.geocode(`${d.address} ${d.city}`);
-                locations.push({
-                        lat: loc[0].latitude,
-                        long: loc[0].longitude,
-                        ID: d.ID
-                })
+        let distributions = await getDistributionsByCityByDate(req.body.city, getCurrentDate());
+        //let locations = new Array(distributions.length);
+        
+        let locations = distributions.map(d => geocoder.geocode(`${d.address} ${d.city}`));
+        let vectors = new Array(locations.length);
+        for (let i = 0; i < locations.length; i++) {
+                let loc = await locations[i];
+                locations[i] = {loc:loc[0], ID: distributions[i].ID};
+                vectors[i] = [loc[0].longitude, loc[0].latitude];
+        }
+        kmeans.clusterize(vectors, {k:req.body.distributers.length}, (err, result)=>{
+                console.log(result[0].cluster);
+                console.log(result)
         })
-        console.log(locations);
+        
+
+
+
+        
         res.json({ success: true, message: "Fuck You" });
 });
 
