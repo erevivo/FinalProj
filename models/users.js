@@ -16,8 +16,8 @@ function getUsers() {
 }
 
 function assignDistributer(name) {
-        let newVal = { $set: { assigned: true } };
-        convoDB.updateOne({ name: name }, newVal, function (err, res) {
+        let newVal = { $set: { isAssigned: true } };
+        userDB.updateOne({ name: name }, newVal, function (err, res) {
                 if (err) throw err;
                 console.log("1 document updated");
         });
@@ -25,11 +25,12 @@ function assignDistributer(name) {
 
 function unassignAll() {
         let newVal = { $set: { isAssigned: false } };
-        convoDB.updateMany({ usetType: "D" }, newVal, function (err, res) {
+        userDB.updateMany({ usetType: "D" }, newVal, function (err, res) {
                 if (err) throw err;
                 console.log("1 document updated");
         });
 }
+
 
 async function getUserBy(key, value) {
         qry = {};

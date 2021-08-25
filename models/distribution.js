@@ -6,7 +6,15 @@ function getDistributions() {
 
 function setDone(distID) {
         let newVal = { $set: { done: true } };
-        convoDB.updateOne({ ID: distID }, newVal, function (err, res) {
+        distributionDB.updateOne({ ID: distID }, newVal, function (err, res) {
+                if (err) throw err;
+                console.log("1 document updated");
+        });
+}
+
+function setAssigned(distID, distributerName){
+        let newVal = { $set: { assigned: true, assignee:  distributerName} };
+        distributionDB.updateOne({ ID: distID }, newVal, function (err, res) {
                 if (err) throw err;
                 console.log("1 document updated");
         });
@@ -17,12 +25,12 @@ async function getFirstCity(){
         return firstDist.city;
 }
 
-function getDistributionsFromList(distList) {
-        return distributionDB.find({ ID: { $in: distList.list } }).toArray();
+function getDistributionsAssigned(name) {
+        return distributionDB.find({ assignee: name }).toArray();
 }
 
 function getDistributionsByCityByDate(city, datestr) {
-        return distributionDB.find({ city: city, date: datestr }).toArray();
+        return distributionDB.find({ city: city, date: datestr, assigned: false }).toArray();
 }
 
 function getDistributionsByCity(city) {
@@ -30,7 +38,7 @@ function getDistributionsByCity(city) {
 }
 
 function getDistributionsByDate(datestr) {
-        return distributionDB.find({ date: datestr }).toArray();
+        return distributionDB.find({ date: datestr, assigned: false }).toArray();
 }
 
 async function addMultDistributions(distributions) {
@@ -49,9 +57,10 @@ async function getNewID() {
 module.exports = {
         getDistributions,
         addMultDistributions,
-        getDistributionsFromList,
         getDistributionsByCity,
         getDistributionsByDate,
         getDistributionsByCityByDate,
-        getFirstCity
+        getFirstCity,
+        setAssigned,
+        getDistributionsAssigned
 };

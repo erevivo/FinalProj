@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {ListGroup, Button} from 'react-bootstrap'
+import { ListGroup, Button } from 'react-bootstrap'
 import AddDist from "./AddDist";
 import DistItem from "./DistItem";
 import MyModal from "./MyModal";
@@ -7,8 +7,7 @@ import Multiselect from 'multiselect-react-dropdown';
 
 class Distributions extends Component {
         state = {
-                dists: [],
-                city: "",
+                dists: {},
                 date: "",
                 availableDistributers: [],
                 selectedDistributers: []
@@ -29,8 +28,7 @@ class Distributions extends Component {
                                         console.log(data);
                                         this.setState(
                                                 {
-                                                        dists: data.distributions,
-                                                        city: data.city,
+                                                        dists: data.grouped,
                                                         date: data.getCurrentDate,
                                                         availableDistributers: data.distributers
                                                 });
@@ -47,7 +45,6 @@ class Distributions extends Component {
                                 "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                                city: this.state.city,
                                 date: this.state.date,
                         }),
                 })
@@ -64,8 +61,7 @@ class Distributions extends Component {
 
         }
 
-        assign = ()=>
-        {
+        assign = (e) => {
                 fetch("/distributions/assign", {
                         method: "POST",
                         headers: {
@@ -73,24 +69,20 @@ class Distributions extends Component {
                         },
                         body: JSON.stringify({
                                 distributers: this.state.selectedDistributers,
-                                city: this.state.city,
+                                city: e.target.id
                         }),
                 })
                         .then((res) => res.json())
                         .then((data) => {
                                 //loading(false);
                                 if (data.success) {
-                                       console.log(data);
+                                        console.log(data);
                                 } else {
                                         console.log("Error:", data.message);
                                 }
                         })
                         .catch(() => { });
-        }
-
-        changeCity = e => {
-                this.setState({ city: e.target.value },
-                        this.fetchChange);
+                        this.componentDidMount();
         }
 
         changeDate = e => {
@@ -101,26 +93,43 @@ class Distributions extends Component {
 
         }
 
-        onSelect = (selectedList)=>{
-                this.setState({selectedDistributers: selectedList});
+
+
+        onSelect = (selectedList) => {
+                this.setState({ selectedDistributers: selectedList });
         }
 
         render() {
                 return this.props.isManager ? this.renderForManager() : this.renderForDistributor();
         }
 
+        renderAllCitys = () => {
+                let cityList = [];
+                for (let city in this.state.dists){
+                        cityList.push(this.renderCity(city, this.state.dists[city]));
+                }
+                return cityList;
+        }
+
+        renderCity = (c, l) => {
+                return (<div>
+                <span className="form-control-feedback" aria-hidden="true">{c}</span>
+                        <Button
+                                className="btn btn-lg btn-primary btn-left" id={c} onClick={this.assign}>Assign <span className="icon-arrow-right2 outlined"></span>
+                        </Button>
+
+                        <ListGroup>
+                                {l.map(d => <ListGroup.Item>
+                                        <DistItem item={d} />
+                                </ListGroup.Item>)}
+                        </ListGroup>
+                </div>)
+        }
+
+
         renderForManager() {
                 return (
                         <div>
-                                <div className="col-sm-3">
-                                        <span className="form-control-feedback" aria-hidden="true">City</span>
-                                        <input
-                                                type="text"
-                                                className="form-control"
-                                                onChange={this.changeCity}
-                                                value={this.state.city}
-                                        />
-                                </div>
                                 <div className="col-sm-3">
                                         <span className="form-control-feedback" aria-hidden="true">Date</span>
                                         <input
@@ -137,11 +146,9 @@ class Distributions extends Component {
                                         onRemove={this.onSelect} // Function will trigger on remove event
                                         displayValue="name" // Property name to display in the dropdown options
                                 />
-                                <Button
-                                                        className="btn btn-lg btn-primary btn-left" onClick={this.assign}>Assign <span className="icon-arrow-right2 outlined"></span></Button>
-                                <ListGroup>
-                                        {this.state.dists.map(d => <ListGroup.Item><DistItem item={d} /></ListGroup.Item>)}
-                                </ListGroup>
+                                {this.renderAllCitys()}
+
+
                                 <MyModal str="Add Distribution"
                                         content={(show, close) =>
                                         (<AddDist
