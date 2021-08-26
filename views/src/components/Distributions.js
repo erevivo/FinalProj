@@ -89,6 +89,7 @@ class Distributions extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         console.log(data);
+                                        
                                         this.forceUpdate();
                                 } else {
                                         console.log("Error:", data.message);

@@ -95,7 +95,10 @@ router.post("/assign", async function (req, res) {
                 return;
         }
         let distributions = await getDistributionsByCityByDate(req.body.city, getCurrentDate());
-
+        if (distributions.length == 0){
+                res.json({ success: false, message: "No distributions to assign" });
+                return;
+        }
         let locations = distributions.map(d => geocoder.geocode(`${d.address} ${d.city}`));
         let vectors = new Array(locations.length);
         for (let i = 0; i < locations.length; i++) {
@@ -104,7 +107,7 @@ router.post("/assign", async function (req, res) {
                 vectors[i] = [loc[0].longitude, loc[0].latitude];
         }
 
-        let distributers = req.body.distributers;
+        let distributers = req.body.distributers.slice(0, distributions.length);
         kmeans.clusterize(vectors, { k: distributers.length }, (err, result) => {
                 for (let i = 0; i < distributers.length; i++) {
                         for (let j = 0; j < result[i].cluster.length; j++) {
