@@ -8,7 +8,7 @@ async function getNewID() {
 
 async function addBlog(blog) {
         blog.ID = await getNewID();
-        console.log("new ID "+ blog.ID);
+        console.log("new ID " + blog.ID);
         blog.time = getCurrentDateTime();
         blogDB.insertOne(blog);
 }

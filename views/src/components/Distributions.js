@@ -4,13 +4,15 @@ import AddDist from "./AddDist";
 import DistItem from "./DistItem";
 import MyModal from "./MyModal";
 import Multiselect from 'multiselect-react-dropdown';
+import { Map, Marker, Markers } from '@joeattardi/react-mapquest-static-map';
+import { getStringFromDate } from "../common";;
 
 class Distributions extends Component {
         state = {
                 dists: {},
                 date: "",
                 availableDistributers: [],
-                selectedDistributers: []
+                selectedDistributers: [],
         }
         componentDidMount() {
                 console.log("hello");
@@ -29,13 +31,23 @@ class Distributions extends Component {
                                         this.setState(
                                                 {
                                                         dists: data.grouped,
-                                                        date: data.getCurrentDate,
-                                                        availableDistributers: data.distributers
+                                                        date: getStringFromDate(new Date()),
+                                                        availableDistributers: data.distributers,
                                                 });
                                 }
 
                         })
-                        .catch(() => { console.log("error") });
+                        .catch((e) => { console.log("error:", e) });
+        }
+
+        addDist = dist => {
+                console.log(this.state.dists);
+                let newList = this.state.dists;
+                if (dist.city in newList)
+                        newList[dist.city].push(dist);
+                else
+                        newList[dist.city] = [dist];
+                this.setState({ dists: newList });
         }
 
         fetchChange = () => {
@@ -52,7 +64,7 @@ class Distributions extends Component {
                         .then((data) => {
                                 //loading(false);
                                 if (data.success) {
-                                        this.setState({ dists: data.distributions })
+                                        this.setState({ dists: data.grouped })
                                 } else {
                                         console.log("Error:", data.message);
                                 }
@@ -77,12 +89,12 @@ class Distributions extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         console.log(data);
+                                        this.forceUpdate();
                                 } else {
                                         console.log("Error:", data.message);
                                 }
                         })
                         .catch(() => { });
-                        this.componentDidMount();
         }
 
         changeDate = e => {
@@ -99,30 +111,73 @@ class Distributions extends Component {
                 this.setState({ selectedDistributers: selectedList });
         }
 
+        doneDist = (ID, city) => {
+                fetch("/distributions/done", {
+                        method: "POST",
+                        headers: {
+                                "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                                id: ID,
+                        }),
+                })
+                        .then((res) => res.json())
+                        .then((data) => {
+                                //loading(false);
+                                if (data.success) {
+                                        this.state.dists[city].forEach(d => {
+                                                if (d.ID == ID) {
+                                                        d.done = true;
+                                                }
+                                        });
+                                        this.forceUpdate();
+
+                                        console.log(data);
+                                } else {
+                                        console.log("Error:", data.message);
+                                }
+                        })
+                        .catch(() => { });
+        }
+
         render() {
+                console.log("state", this.state);
                 return this.props.isManager ? this.renderForManager() : this.renderForDistributor();
         }
 
         renderAllCitys = () => {
                 let cityList = [];
-                for (let city in this.state.dists){
-                        cityList.push(this.renderCity(city, this.state.dists[city]));
+                for (let city in this.state.dists) {
+                        cityList.push(this.renderCity(city, this.state.dists[city], true));
                 }
                 return cityList;
         }
 
-        renderCity = (c, l) => {
+        renderCity = (c, l, m) => {
+                console.log(c, l, m);
                 return (<div>
-                <span className="form-control-feedback" aria-hidden="true">{c}</span>
-                        <Button
-                                className="btn btn-lg btn-primary btn-left" id={c} onClick={this.assign}>Assign <span className="icon-arrow-right2 outlined"></span>
-                        </Button>
+                        {m && this.state.date == getStringFromDate(new Date()) && <div>
+                                <span className="form-control-feedback" aria-hidden="true">{c}</span>
+                                <Button
+                                        className="btn btn-lg btn-primary btn-left" id={c} onClick={this.assign}>Assign <span className="icon-arrow-right2 outlined"></span>
+                                </Button>
+                        </div>
+                        }
 
                         <ListGroup>
                                 {l.map(d => <ListGroup.Item>
-                                        <DistItem item={d} />
+                                        <DistItem item={d} fromD={!m} doneDist={this.doneDist} />
                                 </ListGroup.Item>)}
                         </ListGroup>
+                        <Map apiKey={"bpJv6Pv9c0J9TourCzB24vlzBSta7kgY"}>
+                                <Markers>{l.map(d => <Marker
+                                        location={`${d.address}, ${d.city}`}
+                                        icon={d.done ? "marker-start" : d.assigned ? "marker" : "marker-end"}
+                                >
+
+                                </Marker>)}</Markers>
+
+                        </Map>
                 </div>)
         }
 
@@ -154,13 +209,17 @@ class Distributions extends Component {
                                         (<AddDist
                                                 showModal={show}
                                                 onClose={close}
+                                                addFn={this.addDist}
                                         />)}
                                 />
                         </div>
                 );
         }
         renderForDistributor() {
-                return (<div></div>);
+                let keys = Object.keys(this.state.dists);
+                if (keys.length)
+                        return this.renderCity(keys[0], this.state.dists[keys[0]], false);
+                return <div></div>;
         }
 }
 

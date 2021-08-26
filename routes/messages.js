@@ -15,7 +15,7 @@ router.get("/", async function (req, res) {
 
 router.post("/convo", async function (req, res) {
         convo = await getConvo(req.body.mName, req.body.dName);
-        res.json({ success: true, messages: convo? await getMessages(convo):[] });
+        res.json({ success: true, messages: convo ? await getMessages(convo) : [] });
 });
 
 router.post("/create", async function (req, res) {
@@ -30,7 +30,7 @@ router.post("/create", async function (req, res) {
                 convo = {
                         manName: req.body.mName,
                         distName: req.body.dName,
-                        messages:[]
+                        messages: []
                 };
                 await addConvo(convo);
                 addMessage(convo, newMessage);
@@ -39,7 +39,7 @@ router.post("/create", async function (req, res) {
         }
         convo = await getConvo(req.body.mName, req.body.dName);
         addMessage(convo, newMessage);
-        res.json({ success: true , newMessage: newMessage});
+        res.json({ success: true, newMessage: newMessage });
 });
 
 module.exports = router;

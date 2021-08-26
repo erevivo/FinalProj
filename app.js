@@ -29,7 +29,7 @@ function setControllers() {
 require("./models/mongo")(setControllers);
 // view engine setup
 // app.set("views", path.join(__dirname, "views"));
-        app.use("/", express.static(path.join(__dirname, 'views', 'build')));
+app.use("/", express.static(path.join(__dirname, 'views', 'build')));
 
 // app.use(function(req, res, next) {
 //     setTimeout(next, 1000);
@@ -57,7 +57,7 @@ function setErrHandling() {
                         req.app.get("env") === "development" ? err : {};
                 // render the error page
                 res.status(err.status || 500);
-                res.json({err:err});
+                res.json({ err: err });
         });
 }
 

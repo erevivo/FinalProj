@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import getCookie from "../common";
+import { getCookie } from "../common";
 
 import {
         Button,
@@ -31,6 +31,8 @@ class AddBlog extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         this.setState({ input: "" })
+                                        this.props.onClose();
+                                        this.props.addFn(data.blog);
                                 }
 
                         })
@@ -40,23 +42,23 @@ class AddBlog extends Component {
 
 
 
-        handleChange = e =>{
+        handleChange = e => {
                 this.setState({ input: e.target.value });
         }
 
 
         renderDetails = () => {
                 return (
-                        <form onSubmit={this.add}>
+                        <form>
                                 <label>
                                         Blog:
                                         <textarea value={this.state.input} onChange={this.handleChange} />
                                 </label>
-                                <input type="submit" value="Submit" />
+                                <Button lassName="btn btn-lg btn-primary btn-left" onClick={this.add}>Add <span className="icon-arrow-right2 outlined"></span></Button>
                         </form>
                 );
         }
-        render(){
+        render() {
                 return (
                         <div>
                                 <Modal
@@ -76,7 +78,7 @@ class AddBlog extends Component {
                                         </Modal.Footer>
                                 </Modal>
                         </div>
-                ); 
+                );
         }
 }
 

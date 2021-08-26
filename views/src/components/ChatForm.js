@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import getCookie from "../common";
+import { getCookie } from "../common";
 import ListGroup from 'react-bootstrap/ListGroup'
 import socketIOClient from 'socket.io-client';
 

@@ -8,12 +8,12 @@ class Delete extends Component {
         state = {
                 showModal: false,
         };
-        constructor(props){
+        constructor(props) {
                 super(props);
                 console.log("Delete component")
         }
 
-        onSubmit = ()=> {
+        onSubmit = () => {
                 console.log("fetching");
                 fetch("/users/delete", {
                         method: "DELETE",
@@ -57,7 +57,7 @@ class Delete extends Component {
                                 <Modal
                                         show={this.props.showModal}
                                         onHide={this.props.onClose}
-                                        
+
                                         bsSize="large"
                                 >
                                         <Modal.Header closeButton={true}>

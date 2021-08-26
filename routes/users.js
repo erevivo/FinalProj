@@ -11,7 +11,7 @@ var { addUser, deleteUser, getUserBy, getUsers, getManagers } = require("../mode
 router.get("/", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
         if (isManager(currentUser)) {
-                res.json({users: await getUsers()});
+                res.json({ users: await getUsers() });
                 return;
         }
 
@@ -53,12 +53,12 @@ router.post("/newUser", async function (req, res) {
         let newUser = {
                 name: body.name,
                 phone: body.phone,
-                userType: body.type == "Manager"?"M":"D",
+                userType: body.type == "Manager" ? "M" : "D",
                 password: body.password,
                 isAssigned: false,
         };
         await addUser(newUser);
-        res.json({ success: true, message: "User was created", user:newUser });
+        res.json({ success: true, message: "User was created", user: newUser });
 });
 
 router.get("/Type", async function (req, res) {
@@ -74,7 +74,7 @@ router.post("/authenticate", async function (req, res) {
                         success: false,
                         message: "There is no user with that name",
                 });
-        
+
 
         else if (user.password == body.password) {
                 setCookies(res, user);

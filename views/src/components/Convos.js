@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import ConvoItem from "./ConvoItem";
 class ConvoList extends Component {
         state = {
-                convos :[]
+                convos: []
         }
         //TODO: make better
         componentDidMount() {
@@ -25,13 +25,13 @@ class ConvoList extends Component {
 
         render() {
                 return (<div>
-                <ListGroup>
-                        {this.state.convos.map(c=><ListGroup.Item><ConvoItem item={c}/></ListGroup.Item>)}
-                       </ListGroup>
-                       </div>
-                       
+                        <ListGroup>
+                                {this.state.convos.map(c => <ListGroup.Item><ConvoItem item={c} /></ListGroup.Item>)}
+                        </ListGroup>
+                </div>
+
                 )
-                
+
 
         }
 }

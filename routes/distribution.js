@@ -18,12 +18,11 @@ const {
 const { getUserBySessID } = require("../database/common")
 const {
         addMultDistributions,
-        getFirstCity,
-        getDistributionsByCity,
         getDistributionsByCityByDate,
         setAssigned,
         getDistributionsByDate,
         getDistributionsAssigned,
+        doneDistribution
 } = require("../models/distribution");
 const { getAvailableDists, assignDistributer } = require("../models/users");
 var router = express.Router();
@@ -33,7 +32,6 @@ router.get("/", async function (req, res) {
         let currentDate = getCurrentDate();
         console.log(currentDate);
         if (isManager(currentUser)) {
-                let city = await getFirstCity();
                 let distributions = await getDistributionsByDate(currentDate);
                 groupedDists = {};
                 distributions.forEach(d => {
@@ -42,17 +40,20 @@ router.get("/", async function (req, res) {
                         else
                                 groupedDists[d.city] = [d];
                 });
+                console.log(distributions);
                 res.json({
                         success: true,
                         grouped: groupedDists,
-                        city: city,
                         date: currentDate,
                         distributers: await getAvailableDists()
                 });
         } else {
+                let distributions = await getDistributionsAssigned(currentUser.name, currentDate);
+                grouped = {};
+                grouped[distributions[0].city] = distributions;
                 res.json({
                         success: true,
-                        distributions: await getDistributionsAssigned(distList),
+                        grouped: grouped,
                 });
 
         }
@@ -61,7 +62,6 @@ router.get("/", async function (req, res) {
 router.post("/change", async function (req, res) {
         let currentUser = await getUserBySessID(req.sessionID);
         if (isManager(currentUser)) {
-                let city = req.body.city;
                 let distributions = await getDistributionsByDate(req.body.date);
                 groupedDists = {};
                 distributions.forEach(d => {
@@ -70,10 +70,10 @@ router.post("/change", async function (req, res) {
                         else
                                 groupedDists[d.city] = [d];
                 });
+                console.log(distributions)
                 res.json({
                         success: true,
                         grouped: groupedDists,
-                        city: city,
                         date: req.body.date,
                 });
         } else {
@@ -114,7 +114,22 @@ router.post("/assign", async function (req, res) {
                 }
         });
 
-        res.json({ success: true, message: "Fuck You" });
+        res.json({ success: true, message: "Successfully assigned" });
+});
+
+router.post("/done", async function (req, res) {
+        let currentUser = await getUserBySessID(req.sessionID);
+
+        if (isManager(currentUser)) {
+                res.json({
+                        success: false,
+                        message: "You are unauthorized to complete distributions",
+                });
+                return;
+        }
+        doneDistribution(req.body.id);
+        res.json({ success: true, message: "Successfully completed" });
+
 });
 
 router.post("/create", async function (req, res) {
@@ -127,6 +142,7 @@ router.post("/create", async function (req, res) {
                 });
                 return;
         }
+        let retDist = null;
         let newDistributions = [];
         let interval = parseInt(body.interval);
         if (body.repetitive) {
@@ -157,9 +173,13 @@ router.post("/create", async function (req, res) {
                         },
                 ];
         }
+        newDistributions.forEach(d => {
+                if (d.date == getCurrentDate())
+                        retDist = d;
+        });
         addMultDistributions(newDistributions);
 
-        res.json({ success: true, message: "Distributions created" });
+        res.json({ success: true, message: "Distributions created", newDist: retDist });
 });
 
 module.exports = router;

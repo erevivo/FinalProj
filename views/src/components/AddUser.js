@@ -33,6 +33,12 @@ class AddUser extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         console.log(data.message);
+                                        this.setState({
+                                                name: "",
+                                                password: "",
+                                                phone: "",
+                                                type: "D"
+                                        });
                                         this.props.addFn(data.user);
                                         this.props.onClose();
 

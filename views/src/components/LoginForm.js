@@ -11,7 +11,7 @@ class LoginForm extends Component {
                 password: "",
         }
 
-        onSubmit = ()=> {
+        onSubmit = () => {
                 console.log("fetching");
                 fetch("/users/authenticate", {
                         method: "POST",
@@ -105,7 +105,7 @@ class LoginForm extends Component {
                                 <Modal
                                         show={this.props.showModal}
                                         onHide={this.props.onClose}
-                                        
+
                                         bsSize="large"
                                 >
                                         <Modal.Header closeButton={true}>

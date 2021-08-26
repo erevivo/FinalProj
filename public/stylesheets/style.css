@@ -1,49 +1,49 @@
 ol li {
-    background: #ffe5e5;
-    padding: 5px;
-    margin-left: 35px;
+        background: #ffe5e5;
+        padding: 5px;
+        margin-left: 35px;
 }
 
 .parallax {
-    /* The image used */
-    background-image: url("/images/Wallpapers/Home Wallpaper.jpg");
-    /* Set a specific height */
-    min-height: 500px;
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+        /* The image used */
+        background-image: url("/images/Wallpapers/Home Wallpaper.jpg");
+        /* Set a specific height */
+        min-height: 500px;
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 }
 
 .fancy {
-    font-family: 'Great Vibes';
-    font-size: 30px;
-    /* font: 400 130px/0.8 'Great Vibes', Helvetica, sans-serif; */
-    text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.1);
+        font-family: "Great Vibes";
+        font-size: 30px;
+        /* font: 400 130px/0.8 'Great Vibes', Helvetica, sans-serif; */
+        text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.1);
 }
 
 .card.user {
-    min-height: 357px;
+        min-height: 357px;
 }
 
 #body {
-    max-width: none;
+        max-width: none;
 }
 
 li {
-    width: auto !important;
+        width: auto !important;
 }
 
 .main-footer-wrapper {
-    position: relative;
-    min-height: 100vh;
+        position: relative;
+        min-height: 100vh;
 }
 
 #main {
-    padding-bottom: 7.5rem
+        padding-bottom: 7.5rem;
 }
 
 .card {
-    width: 18rem;
+        width: 18rem;
 }

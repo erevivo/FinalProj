@@ -6,7 +6,7 @@ var router = express.Router();
 /* GET home page. */
 router.get("/", async function (req, res) {
         let blogs = await getBlogs();
-        
+
         console.log(blogs);
         blogs.sort(
                 (b1, b2) =>
@@ -15,14 +15,14 @@ router.get("/", async function (req, res) {
         res.json({ success: true, blogs: blogs });
 });
 
-router.post("/create", function (req, res) {
+router.post("/create", async function (req, res) {
         newBlog = {
                 writerName: req.body.writer,
                 text: req.body.text,
                 time: getCurrentDateTime(),
         };
-        addBlog(newBlog);
-        res.json({ success: true });
+        await addBlog(newBlog);
+        res.json({ success: true, blog: newBlog });
 });
 
 module.exports = router;

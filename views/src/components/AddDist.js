@@ -45,6 +45,9 @@ class AddDist extends Component {
                                 if (data.success) {
                                         console.log(data.message);
                                         this.props.onClose();
+                                        if (data.newDist) {
+                                                this.props.addFn(data.newDist);
+                                        }
 
                                 } else {
                                         console.log("Error:", data.message);
@@ -62,7 +65,7 @@ class AddDist extends Component {
                 this.setState(newState);
         }
 
-        onCheckRepeat = ()=> this.setState({repetitive: !this.state.repetitive});
+        onCheckRepeat = () => this.setState({ repetitive: !this.state.repetitive });
 
 
 

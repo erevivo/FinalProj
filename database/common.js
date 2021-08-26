@@ -7,17 +7,11 @@ function getCurrentDateTime() {
 }
 
 function getCurrentDate() {
-        let dateobj = new Date();
-        return dateobj.getDate().toString().padStart(2, '0') +
-                "/" +
-                (dateobj.getMonth() + 1).toString().padStart(2, '0') +
-                "/" +
-                dateobj.getFullYear();
+        return getStringFromDate(new Date());
 }
 
 function getStringFromDateTime(dateobj) {
-        let time = dateobj.getHours() + ":" + dateobj.getMinutes();
-        return time + " " + getStringFromDate(dateobj);
+        return getStringFromTime(dateobj) + " " + getStringFromDate(dateobj);
 }
 
 function getStringFromDate(dateobj) {
@@ -26,6 +20,11 @@ function getStringFromDate(dateobj) {
                 (dateobj.getMonth() + 1).toString().padStart(2, '0') +
                 "/" +
                 dateobj.getFullYear();
+}
+
+function getStringFromTime(dateobj) {
+        return dateobj.getHours().toString().padStart(2, '0') + ":" +
+                dateobj.getMinutes().toString().padStart(2, '0');
 }
 
 function getDateTimeFromString(dateStr) {

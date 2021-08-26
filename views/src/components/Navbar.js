@@ -38,6 +38,7 @@ class Navbar extends Component {
             <Link
               eventKey="link-2"
               onClick={this.logout}
+              to={"/home"}
             >
               Logout
             </Link>
@@ -46,11 +47,11 @@ class Navbar extends Component {
           (
             <Nav.Item className="col-sm-2">
               <MyModal str="Login" content={(show, close) =>
-                (<LoginForm
-                  showModal={show}
-                  onClose={close}
-                  loginFunc={this.loginSuccess}
-                />)}
+              (<LoginForm
+                showModal={show}
+                onClose={close}
+                loginFunc={this.loginSuccess}
+              />)}
               />
             </Nav.Item>
           )

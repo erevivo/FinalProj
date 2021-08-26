@@ -15,11 +15,11 @@ async function addMessage(convo, message) {
 }
 
 async function getNewID() {
-        try{
+        try {
                 let highestID = await messageDB.find().sort({ ID: -1 }).limit(1).toArray();
                 return highestID[0].ID + 1;
         }
-        catch{
+        catch {
                 return 0;
         }
 }

@@ -31,7 +31,7 @@ class MyModal extends Component {
                                         {this.props.str}
                                 </Button>
                                 {this.props.content(this.state.showModal, this.close)}
-                                
+
                         </div>
                 );
         }
