@@ -9,6 +9,13 @@ import {
 } from "react-bootstrap";
 import ChatItem from "./ChatItem";
 
+
+let convoStyle = {
+        "overflow": "scroll",
+        "height": "400px"
+}
+
+
 class ChatForm extends Component {
         state = {
                 chatMessage: "",
@@ -115,7 +122,6 @@ class ChatForm extends Component {
         }
 
         calculateSender = message => {
-                console.log(message);
                 if (message.d2m) {
                         return this.state.d2m ? this.state.sender : this.state.receiver;
                 }
@@ -127,19 +133,23 @@ class ChatForm extends Component {
 
         renderDetails = () => {
                 return (
-                        <form onSubmit={this.send}>
+                        <form>
                                 <label>
                                         Message:
                                         <textarea value={this.state.chatMessage} onChange={this.handleChange} />
                                 </label>
-                                <input type="submit" value="Submit" />
+                                <Button
+                                        className="btn btn-lg btn-primary btn-left" onClick={this.send}>Submit <span className="icon-arrow-right2 outlined"></span>
+                                </Button>
                         </form>
                 );
         }
 
         renderConvo = () => {
                 return (<ListGroup>
-                        {this.state.messages.map(m => <ListGroup.Item><ChatItem item={m} sender={this.calculateSender(m)} /></ListGroup.Item>)}
+                        {this.state.messages.map(m => <ListGroup.Item>
+                                <ChatItem item={m} sender={this.calculateSender(m)} isMine={this.calculateSender(m) == this.state.sender} />
+                        </ListGroup.Item>)}
                 </ListGroup>)
         }
         render() {
@@ -152,13 +162,12 @@ class ChatForm extends Component {
                                         bsSize="large"
                                 >
                                         <Modal.Header closeButton={true}>
-                                                <h2>Chat with {this.props.destname}</h2>
+                                                <h2>Chat with {this.props.receiver}</h2>
                                         </Modal.Header>
                                         <Modal.Body>
-                                                {this.renderConvo()}
+                                                <div style={convoStyle}>{this.renderConvo()}</div>
                                         </Modal.Body>
                                         <Modal.Body>
-
                                                 {this.renderDetails()}
                                         </Modal.Body>
                                         <Modal.Footer>

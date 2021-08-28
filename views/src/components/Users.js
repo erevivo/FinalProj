@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import UserCard from "./UserCard";
 import ListGroup from 'react-bootstrap/ListGroup'
 import MyModal from "./MyModal";
