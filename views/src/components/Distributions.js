@@ -5,8 +5,8 @@ import DistItem from "./DistItem";
 import MyModal from "./MyModal";
 import Multiselect from 'multiselect-react-dropdown';
 import { Map, Marker, Markers } from '@joeattardi/react-mapquest-static-map';
-import { getStringFromDate } from "../common";;
-
+import { getStringFromDate } from "../common";
+import {defaultButtonStyle} from "./Styles";
 class Distributions extends Component {
         state = {
                 dists: {},
@@ -159,7 +159,7 @@ class Distributions extends Component {
                 return (<div>
                         {m && this.state.date == getStringFromDate(new Date()) && <div>
                                 <span className="form-control-feedback" aria-hidden="true">{c}</span>
-                                <Button
+                                <Button style={defaultButtonStyle}
                                         className="btn btn-lg btn-primary btn-left" id={c} onClick={this.assign}>Assign <span className="icon-arrow-right2 outlined"></span>
                                 </Button>
                         </div>

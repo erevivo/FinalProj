@@ -24,7 +24,7 @@ class App extends Component {
       <div>
 
         <Router basename={"/"}>
-          <div class="nav-wrapper">
+          <div className="nav-wrapper">
             <Navbar parentSet={this.setManager} />
           </div>
           <Switch>

@@ -3,6 +3,7 @@ import {
         Button,
         Modal,
 } from "react-bootstrap";
+import {modals, defaultButtonStyle} from "./Styles"
 
 class LoginForm extends Component {
         state = {
@@ -90,7 +91,7 @@ class LoginForm extends Component {
                                                 </div>
                                         </fieldset>
                                         <div className="form-action">
-                                                <Button
+                                                <Button style={defaultButtonStyle}
                                                         className="btn btn-lg btn-primary btn-left" onClick={this.onSubmit}>Enter <span className="icon-arrow-right2 outlined"></span></Button>
                                         </div>
                                 </form>
@@ -108,14 +109,14 @@ class LoginForm extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header closeButton={true}>
+                                        <Modal.Header closeButton={true} style={modals}>
                                                 <h2>Login</h2>
                                         </Modal.Header>
-                                        <Modal.Body>
+                                        <Modal.Body style={modals}>
                                                 {this.renderLogin()}
                                         </Modal.Body>
-                                        <Modal.Footer>
-                                                <Button onClick={this.props.onClose}>Close</Button>
+                                        <Modal.Footer style={modals}>
+                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
                                         </Modal.Footer>
                                 </Modal>
                         </div>

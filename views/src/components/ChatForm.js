@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { getCookie } from "../common";
 import ListGroup from 'react-bootstrap/ListGroup'
 import socketIOClient from 'socket.io-client';
+import {modals, defaultButtonStyle} from "./Styles"
 
 import {
         Button,
@@ -138,7 +139,7 @@ class ChatForm extends Component {
                                         Message:
                                         <textarea value={this.state.chatMessage} onChange={this.handleChange} />
                                 </label>
-                                <Button
+                                <Button style={defaultButtonStyle}
                                         className="btn btn-lg btn-primary btn-left" onClick={this.send}>Submit <span className="icon-arrow-right2 outlined"></span>
                                 </Button>
                         </form>
@@ -161,17 +162,17 @@ class ChatForm extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header closeButton={true}>
+                                        <Modal.Header style={modals} closeButton={true}>
                                                 <h2>Chat with {this.props.receiver}</h2>
                                         </Modal.Header>
-                                        <Modal.Body>
+                                        <Modal.Body style={modals}>
                                                 <div style={convoStyle}>{this.renderConvo()}</div>
                                         </Modal.Body>
-                                        <Modal.Body>
+                                        <Modal.Body style={modals}>
                                                 {this.renderDetails()}
                                         </Modal.Body>
-                                        <Modal.Footer>
-                                                <Button onClick={this.props.onClose}>Close</Button>
+                                        <Modal.Footer style={modals}>
+                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
                                         </Modal.Footer>
                                 </Modal>
                         </div>

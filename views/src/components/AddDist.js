@@ -3,6 +3,7 @@ import {
         Button,
         Modal,
 } from "react-bootstrap";
+import {modals, defaultButtonStyle} from "./Styles"
 
 class AddDist extends Component {
 
@@ -154,7 +155,7 @@ class AddDist extends Component {
                                                 {this.state.repetitive && this.renderRepetitive()}
                                         </fieldset>
                                         <div className="form-action">
-                                                <Button
+                                                <Button style={defaultButtonStyle}
                                                         className="btn btn-lg btn-primary btn-left" onClick={this.onSubmit}>Add <span className="icon-arrow-right2 outlined"></span></Button>
                                         </div>
                                 </form>
@@ -214,14 +215,14 @@ class AddDist extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header closeButton={true}>
+                                        <Modal.Header style={modals} closeButton={true}>
                                                 <h2>Add New Distribution</h2>
                                         </Modal.Header>
-                                        <Modal.Body>
+                                        <Modal.Body style={modals}>
                                                 {this.renderDetails()}
                                         </Modal.Body>
-                                        <Modal.Footer>
-                                                <Button onClick={this.props.onClose}>Close</Button>
+                                        <Modal.Footer style={modals}>
+                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
                                         </Modal.Footer>
                                 </Modal>
                         </div>

@@ -3,6 +3,8 @@ import {
         Button,
         Modal,
 } from "react-bootstrap";
+import {modals, defaultButtonStyle} from "./Styles"
+
 
 class Delete extends Component {
         state = {
@@ -60,14 +62,14 @@ class Delete extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header closeButton={true}>
+                                        <Modal.Header style={modals} closeButton={true}>
                                                 <h2>Are you sure you want to delete {this.props.username}</h2>
                                         </Modal.Header>
-                                        <Modal.Body>
+                                        <Modal.Body style={modals}>
                                                 {this.renderDelete()}
                                         </Modal.Body>
-                                        <Modal.Footer>
-                                                <Button onClick={this.props.onClose}>Close</Button>
+                                        <Modal.Footer style={modals}>
+                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
                                         </Modal.Footer>
                                 </Modal>
                         </div>

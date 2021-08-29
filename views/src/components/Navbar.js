@@ -1,25 +1,50 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Nav from "react-bootstrap/Nav";
-import "./Navbar.css";
 import LoginForm from "./LoginForm";
 import MyModal from "./MyModal";
+
+const navItemStyle = {
+  border: "5px outset #000000",
+  backgroundColor: "#ff6600",
+  textAlign: "center",
+  padding: "5px",
+  borderRadius: "10px",
+  fontSize: "30px"
+}
+
+const navAdd = {
+  paddingTop: "10px"
+}
+
+const linkStyle = {
+  color: "#000000",
+  fontFamily: "Bradley Hand, cursive",
+  textDecoration: "none"
+
+}
+
+const buttonStyle = {
+  backgroundColor: "Transparent",
+  borderColor: "Transparent",
+  fontFamily: "Bradley Hand, cursive",
+  color: "#000000",
+  fontSize: "30px"
+}
+
+
 class Navbar extends Component {
-  constructor(props) {
-    super(props);
-    this.loginSuccess = this.loginSuccess.bind(this);
-    this.logout = this.logout.bind(this);
-  }
+
   state = {
     loggedIn: false,
     isManager: false,
   };
 
-  loginSuccess(isAuth) {
+  loginSuccess = (isAuth) => {
     this.setState({ loggedIn: true, isManager: isAuth });
     this.props.parentSet(isAuth);
   }
-  logout() {
+  logout = () => {
     this.setState({ loggedIn: false });
     this.props.parentSet(false);
   }
@@ -27,26 +52,19 @@ class Navbar extends Component {
 
 
   render() {
+    console.log(this.state);
     return (
 
-      <Nav variant="tabs" defaultActiveKey="/home">
-        <Nav.Item className="col-sm-2">
-          <Link eventKey="link-1" to={"/home"}>Home</Link>
-        </Nav.Item>
+      <Nav defaultActiveKey="/home">
+        <NavLink style={{ ...navItemStyle, ...navAdd, ...linkStyle }} className="col-sm-2" to={"/home"}>Home</NavLink>
         {this.state.loggedIn ? (
-          <Nav.Item className="col-sm-2">
-            <Link
-              eventKey="link-2"
-              onClick={this.logout}
-              to={"/home"}
-            >
-              Logout
-            </Link>
-          </Nav.Item>
+          <NavLink className="col-sm-2" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} onClick={this.logout}
+            to={"/home"}> Logout
+          </NavLink>
         ) :
           (
-            <Nav.Item className="col-sm-2">
-              <MyModal str="Login" content={(show, close) =>
+            <Nav.Item className="col-sm-2" style={navItemStyle}>
+              <MyModal str="Login" buttonStyle={buttonStyle} content={(show, close) =>
               (<LoginForm
                 showModal={show}
                 onClose={close}
@@ -58,33 +76,27 @@ class Navbar extends Component {
         }
 
         {this.state.loggedIn && (
-          <Nav.Item className="col-sm-2">
-
-            <Link to={"/users"}>{this.state.isManager ? "Users" : "Managers"}</Link>
-          </Nav.Item>
+          <NavLink className="col-sm-2" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} to={"/users"}>
+            {this.state.isManager ? "Users" : "Managers"}
+          </NavLink>
         )}
 
         {this.state.loggedIn && (
-          <Nav.Item className="col-sm-2">
-            <Link to={"/blogs"}>
+          <NavLink className="col-sm-2" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} to={"/blogs"}>
+            
               Blog
-            </Link>
-          </Nav.Item>
+          </NavLink>
         )}
         {this.state.loggedIn && (
-          <Nav.Item className="col-sm-2">
-            <Link eventKey="link-6" to={"/convos"}>
+          <NavLink className="col-sm-2" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} to={"/convos"}>
               Chat
-            </Link>
-          </Nav.Item>
+          </NavLink>
         )}
 
         {this.state.loggedIn && (
-          <Nav.Item className="col-sm-2">
-            <Link eventKey="link-6" to={"/distributions"}>
+          <NavLink className="col-sm-2" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} to={"/distributions"}>
               Distributions
-            </Link>
-          </Nav.Item>
+          </NavLink>
         )}
 
       </Nav>
