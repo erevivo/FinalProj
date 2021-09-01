@@ -6,7 +6,7 @@ class DistItem extends Component {
         render() {
                 return (
 
-                        <Card>
+                        <Card style={{ minWidth: '16rem', maxWidth: '16rem', direction: "rtl", textAlign: "center" }}>
                                 <Card.Header>{this.props.item.address} {this.props.item.city}</Card.Header>
                                 <Card.Body>
                                         <blockquote className="blockquote mb-0">
@@ -15,7 +15,7 @@ class DistItem extends Component {
                                                 </p>
                                                 {this.props.item.assigned &&
                                                         <p>
-                                                                {this.props.item.done?"Delivered:":"Delivering:"} {this.props.item.assignee}
+                                                                {this.props.item.done ? "Delivered:" : "Delivering:"} {this.props.item.assignee}
                                                         </p>
                                                 }
                                                 <footer className="blockquote-footer">
@@ -23,11 +23,11 @@ class DistItem extends Component {
                                                 </footer>
                                         </blockquote>
                                         {this.props.fromD && !this.props.item.done &&
-                                        <div>
-                                                <Button
-                                                        className="btn btn-lg btn-primary btn-left" onClick={() => this.props.doneDist(this.props.item.ID, this.props.item.city)}>Done <span className="icon-arrow-right2 outlined"></span>
-                                                </Button>
-                                        </div>
+                                                <div>
+                                                        <Button
+                                                                className="btn btn-lg btn-primary btn-left" onClick={() => this.props.doneDist(this.props.item.ID, this.props.item.city)}>Done <span className="icon-arrow-right2 outlined"></span>
+                                                        </Button>
+                                                </div>
                                         }
 
                                 </Card.Body>

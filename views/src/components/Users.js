@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import UserCard from "./UserCard";
-import ListGroup from 'react-bootstrap/ListGroup'
 import MyModal from "./MyModal";
 import AddUser from "./AddUser";
 
@@ -38,20 +37,24 @@ class Users extends Component {
 
 
         render() {
-                return (<div>
-                        <ListGroup>
-                                {this.state.users.map(u => <ListGroup.Item><UserCard u={u} isManager={this.props.isManager} removeUser={this.removeUser} /></ListGroup.Item>)}
-                        </ListGroup>
-                        {this.props.isManager &&
-                                <MyModal str="Add User"
+                return (<div className="container mt-3">
+                        <div className="card-group justify-content-between align-items-center align-content-between ">
+                                {this.state.users.map(u => <UserCard u={u}
+                                        isManager={this.props.isManager}
+                                        removeUser={this.removeUser} />)}
+                        </div>
+                        {
+                                this.props.isManager &&
+                                <MyModal str="הוסף משתמש"
                                         content={(show, close) =>
                                         (<AddUser
                                                 showModal={show}
                                                 onClose={close}
                                                 addFn={this.addUser}
                                         />)}
-                                />}
-                </div>
+                                />
+                        }
+                </div >
 
                 )
         }

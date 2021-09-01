@@ -3,7 +3,7 @@ import {
         Button,
         Modal,
 } from "react-bootstrap";
-import {modals, defaultButtonStyle} from "./Styles"
+import { modals, defaultButtonStyle } from "./Styles"
 
 class AddUser extends Component {
         state = {
@@ -67,15 +67,15 @@ class AddUser extends Component {
                                 <form className="form-horizontal form-loanable">
                                         <fieldset>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Username</label>
-                                                        <div className="col-sm-7">
+                                                        <label htmlFor="login-email" className="col-sm-8" style={{ marginRight: "12%" }}>שם משתמש:</label>
+                                                        <div className="col-sm-8" style={{ marginRight: "12%" }}>
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
                                                                         type="text"
                                                                         name="name"
                                                                         id="name"
                                                                         className="form-control"
-                                                                        placeholder="Enter username"
+                                                                        placeholder="הכנס שם משתמש"
                                                                         onChange={this.onChange}
                                                                         value={this.state.name}
                                                                         required
@@ -83,15 +83,15 @@ class AddUser extends Component {
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">password</label>
-                                                        <div className="col-sm-7">
+                                                        <label htmlFor="name" className="col-sm-8" style={{ marginRight: "12%" }}>סיסמא:</label>
+                                                        <div className="col-sm-8" style={{ marginRight: "12%" }}>
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
-                                                                        type="text"
+                                                                        type="password"
                                                                         name="password"
                                                                         id="password"
                                                                         className="form-control"
-                                                                        placeholder="Enter password"
+                                                                        placeholder="הכנס סיסמא"
                                                                         onChange={this.onChange}
                                                                         value={this.state.password}
                                                                         required
@@ -99,15 +99,15 @@ class AddUser extends Component {
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Phone Number</label>
-                                                        <div className="col-sm-7">
+                                                        <label htmlFor="name" className="col-sm-8" style={{ marginRight: "12%" }}>מספר טלפון:</label>
+                                                        <div className="col-sm-8" style={{ marginRight: "12%" }}>
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
                                                                         type="text"
                                                                         name="email"
                                                                         id="phone"
                                                                         className="form-control"
-                                                                        placeholder="Enter phone number"
+                                                                        placeholder="הכנס מספר טלפון"
                                                                         onChange={this.onChange}
                                                                         value={this.state.phone}
                                                                         required
@@ -115,12 +115,12 @@ class AddUser extends Component {
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Type</label>
-                                                        <div className="col-sm-7">
+                                                        <label htmlFor="name" className="col-sm-8" style={{ marginRight: "12%" }}>סוג</label>
+                                                        <div className="col-sm-8" style={{ marginRight: "12%" }}>
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <select required name="type" id="type" onChange={this.onChange} value={this.state.type}>
-                                                                        <option value="M">Manager</option>
-                                                                        <option value="D" selected={true}>Distributer</option>
+                                                                        <option value="M"> מנהל חלוקה</option>
+                                                                        <option value="D" selected={true}>מחלק</option>
                                                                 </select>
                                                         </div>
                                                 </div>
@@ -128,8 +128,8 @@ class AddUser extends Component {
 
                                         </fieldset>
                                         <div className="form-action">
-                                                <Button style={defaultButtonStyle}
-                                                        className="btn btn-lg btn-primary btn-left" onClick={this.onSubmit}>Add <span className="icon-arrow-right2 outlined"></span></Button>
+                                                <Button style={{ margin: "-40px 20px", position: "absolute", left: "0" }}
+                                                        className="btn btn-primary" onClick={this.onSubmit}>הוסף <span className="icon-arrow-right2 outlined"></span></Button>
                                         </div>
                                 </form>
 
@@ -146,19 +146,18 @@ class AddUser extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header style={modals} closeButton={true}>
-                                                <h2>Add New User</h2>
-                                        </Modal.Header>
+                                        <Modal.Header closeButton={true} style={{ position: "absolute", left: "0" }} />
+                                        <h3 style={{ direction: "rtl", margin: "10px 20px 0 0 " }}> הוסף משתמש חדש </h3>
                                         <Modal.Body style={modals}>
                                                 {this.renderDetails()}
                                         </Modal.Body>
-                                        <Modal.Footer style={modals}>
-                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
-                                        </Modal.Footer>
+
                                 </Modal>
                         </div>
                 );
         }
+
 }
+
 
 export default AddUser;

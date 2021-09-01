@@ -1,11 +1,13 @@
 
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
-import {defaultButtonStyle} from "./Styles"
+import { defaultButtonStyle } from "./Styles"
 
 const styles = {
-        fontFamily: 'sans-serif',
+        fontFamily: "Heebo', sans - serif",
+        fontWeight: "400",
         textAlign: 'center',
+        direction: "rtl"
 };
 class MyModal extends Component {
         state = {
@@ -28,7 +30,7 @@ class MyModal extends Component {
                                         type="button"
                                         className="btn btn-default"
                                         onClick={this.open}
-                                        style={this.props.buttonStyle?this.props.buttonStyle:defaultButtonStyle}
+                                        style={this.props.buttonStyle ? this.props.buttonStyle : defaultButtonStyle}
                                 >
                                         {this.props.str}
                                 </Button>

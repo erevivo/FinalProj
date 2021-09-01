@@ -1,50 +1,64 @@
 import React, { Component } from "react";
 import { CoolText } from 'react-cool-text';
 import 'react-cool-text/react-cool-text/output/theme.css';
-import logo from "../images/logo.png";
+import logo from "../images/logo01.png";
+import background from "../images/bg-main.jpg";
 
 let textStyle = {
-        border: "5px outset #000000",
-        backgroundColor: "#ff6600",
+
+        backgroundColor: "#ef6131",
         textAlign: "center",
         padding: "10px",
+        direction: "rtl",
+        opacity: "0.8",
         margin: "10px",
-        borderRadius: "10px",
-        fontFamily: "Bradley Hand, cursive",
+        width: "30%",
+        right: "00px",
+        lineHeight: "1.8",
+        position: "fixed",
+        top: "150px",
+        fontSize: "18px",
+        fontFamily: "Heebo', sans - serif",
+        fontWeight: "400",
         color: "#000000"
 }
+let bg = {
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        overflowY: "hidden",
+        opacity: "1",
+        width: "100%",
+        height: "calc(628px)"
+}
+
 class Home extends Component {
         render() {
-                return <div style={{ display: "flex", alignItems: "center" }}>
-                        <div><img src={logo} style={{ height: "350px" }}></img></div>
+                return <div>
+                        <div><img src={background}
+                                style={bg}></img></div>
+                        <div style={{ backgroundImage: `url(${background})` }}>
+                        </div>
                         <div>
-
-                                <div style={textStyle}>
-                                        <CoolText
-                                                randomRotateRange={{ min: -15, max: 15 }}
-                                                letterStackItemCount={5}
-                                                letterStackItemOpacity={i => (i === 0 ? 1 : 0.3 - i * 0.01)}
-                                                letterStackItemTranslate={i => ({ x: i * 4, y: i * 4 })}
-
-                                        >
-                                                ZAGURI DISTRIBUTIONS
-                                        </CoolText>
-                                        <p>
-                                                Welcome to <i>ZAGURI DISTRIBUTIONS</i>, your number one source for distributions neccesities during COVID. We're dedicated to giving you the very best service, with a focus on freshness, availability, and customer service.
-                                        </p>
-                                        <p>
-                                                Founded in 2021 by the current co-CEOs Avi Koenigsberg and Evyatar Revivo,&nbsp;
-                                                <i>ZAGURI DISTRIBUTIONS</i> has come a long way from its beginnings in a toolshed. When Avi and Evyatar first started out, their passion for brightening peoples' days with delivering drove them to quit their day jobs, and gave them the
-                                                impetus to turn hard work and inspiration into a booming online service.
-                                        </p>
-                                        <p>
-                                                We now serve customers all over Israel, and are thrilled to be a part of the fair trade wing of the delivery industry. We hope you enjoy our service as much as we enjoy offering it to you. If you have any questions or comments, please don't hesitate
-                                                to contact us.
-                                        </p>
-                                        <p>
-                                                Sincerely, <br /> Avi, co-CEO <br /> Evyatar, co-CEO
-                                        </p>
-                                </div>
+                                <p style={textStyle}>
+                                        ברוכים הבאים <b>לקלנועית</b> - ארגון ההפצה הגדול בישראל לאוכלוסיה המבוגרת.
+                                        <br /><br />
+                                        <b>הקלנועית</b> חרטה על דגלה לשרת את האוכלוסייה המבוגרת בישראל
+                                        בחלוקת מזון תרופות ומצרכים נחוצים תוך מתן שירות אדיב ויעיל לכל
+                                        אדם מבוגר ללא הבדלי גזע דת ומין.
+                                        <br />
+                                        <b>הקלנועית</b> הוקמה בשנת 2021 ע"י היזמים אביתר רביבו ואבי קניגסברג
+                                        אשר נתקלו בקשיי סיפוק המצרכים לקשישים בתקופת הקורונה.
+                                        <br />
+                                        בימים אלו הקלנועית משרתת אלפי קשישים במדינת ישראל
+                                        והינה חלק בלתי נפרד מתעשיית המשלוחים.
+                                        <br />
+                                        בין לקוחותינו, ראשי הממשלות לשעבר, בכירי המוסד ועוד..
+                                        <br />
+                                        נשמח לעמוד לרשותכם בכל עת.
+                                        <br />
+                                        אביתר רביבו
+                                        אבי קניסברג
+                                </p>
                         </div>
                 </div>
         }

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import {
-        Button,
-        Modal,
-} from "react-bootstrap";
-import {modals, defaultButtonStyle} from "./Styles"
+import Login from "../images/login.png";
+import { Button, Modal, } from "react-bootstrap";
+import { modals, defaultButtonStyle } from "./Styles"
 
 class LoginForm extends Component {
         state = {
@@ -56,24 +54,24 @@ class LoginForm extends Component {
                                 <form className="form-horizontal form-loanable">
                                         <fieldset>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="login-email" className="col-sm-5">Username</label>
-                                                        <div className="col-sm-7">
+                                                        <label htmlFor="login-email" className="col-sm-8" style={{ marginRight: "12%" }}>שם משתמש:</label>
+                                                        <div className="col-sm-8" style={{ marginRight: "12%" }}>
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
                                                                         type="text"
                                                                         name="email"
                                                                         id="login-name"
                                                                         className="form-control"
-                                                                        placeholder="Enter username"
+                                                                        placeholder="הכנס שם משתמש"
                                                                         onChange={this.onChange}
                                                                         value={this.state.username}
                                                                         required
                                                                 />
                                                         </div>
-                                                </div>
+                                                </div><br />
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="login-password" className="col-sm-5">Password</label>
-                                                        <div className="col-sm-7">
+                                                        <label htmlFor="login-password" className="col-sm-8" style={{ marginRight: "12%" }}>סיסמא:</label>
+                                                        <div className="col-sm-8" style={{ marginRight: "12%" }}>
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <div className="login-password-wrapper">
                                                                         <input
@@ -89,14 +87,17 @@ class LoginForm extends Component {
                                                                 </div>
                                                         </div>
                                                 </div>
+                                                <div style={{ margin: "auto" }}><br /><br /><br />
+                                                </div>
                                         </fieldset>
+
                                         <div className="form-action">
-                                                <Button style={defaultButtonStyle}
-                                                        className="btn btn-lg btn-primary btn-left" onClick={this.onSubmit}>Enter <span className="icon-arrow-right2 outlined"></span></Button>
+                                                <Button style={{ margin: "-40px 20px", position: "absolute", left: "0" }}
+                                                        className="btn btn-primary" onClick={this.onSubmit}>כניסה <span className="icon-arrow-right2 outlined"></span></Button>
                                         </div>
                                 </form>
 
-                        </div>
+                        </div >
                 );
         };
 
@@ -109,15 +110,13 @@ class LoginForm extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header closeButton={true} style={modals}>
-                                                <h2>Login</h2>
-                                        </Modal.Header>
+                                        <Modal.Header closeButton={true} style={{ position: "absolute", left: "0" }} />
+
+                                        <h3 style={{ direction: "rtl", margin: "10px 20px 0 0 " }}> <img src={Login}
+                                                style={{ height: "40px" }}></img>&nbsp; התחברות </h3>
                                         <Modal.Body style={modals}>
                                                 {this.renderLogin()}
                                         </Modal.Body>
-                                        <Modal.Footer style={modals}>
-                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
-                                        </Modal.Footer>
                                 </Modal>
                         </div>
                 );

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { getCookie } from "../common";
 import ListGroup from 'react-bootstrap/ListGroup'
 import socketIOClient from 'socket.io-client';
-import {modals, defaultButtonStyle} from "./Styles"
+import { modals, defaultButtonStyle } from "./Styles"
 
 import {
         Button,
@@ -149,7 +149,7 @@ class ChatForm extends Component {
         renderConvo = () => {
                 return (<ListGroup>
                         {this.state.messages.map(m => <ListGroup.Item>
-                                <ChatItem item={m} sender={this.calculateSender(m)} isMine={this.calculateSender(m) == this.state.sender} />
+                                <ChatItem item={m} sender={this.calculateSender(m)} isMine={this.calculateSender(m) === this.state.sender} />
                         </ListGroup.Item>)}
                 </ListGroup>)
         }

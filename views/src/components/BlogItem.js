@@ -8,9 +8,9 @@ class BlogItem extends Component {
         render() {
                 return (
 
-                        <Card>
-                                <Card.Header>Written By: {this.props.item.writerName}</Card.Header>
-                                <Card.Body>
+                        <Card style={{ direction: " rtl" }}>
+                                < Card.Header > נכתב ע"י: {this.props.item.writerName}</Card.Header>
+                                < Card.Body >
                                         <blockquote className="blockquote mb-0">
                                                 <p>
                                                         {this.props.item.text}
@@ -19,8 +19,8 @@ class BlogItem extends Component {
                                                         {this.props.item.time}
                                                 </footer>
                                         </blockquote>
-                                </Card.Body>
-                        </Card>
+                                </Card.Body >
+                        </Card >
                 );
 
         }

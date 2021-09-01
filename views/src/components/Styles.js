@@ -1,13 +1,17 @@
 const defaultButtonStyle = {
         backgroundColor: "#ff6600",
-        border: "3px outset #000000",
-        fontFamily: "Bradley Hand, cursive",
+        fontFamily: "Heebo', sans - serif",
+        fontWeight: "400",
         color: "#000000",
-        fontSize: "30px"
+        fontSize: "15px",
+        direction: "rtl",
+
+
 }
 const modals = {
-        backgroundColor: "#ff6600",
-        
+        direction: "rtl",
+
+
 }
 
 export { defaultButtonStyle, modals };

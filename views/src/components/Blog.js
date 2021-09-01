@@ -38,7 +38,7 @@ class Blog extends Component {
                                 {this.state.blogs.map(b => <ListGroup.Item><BlogItem item={b} /></ListGroup.Item>)}
                         </ListGroup>
                         {this.props.isAuth &&
-                                <MyModal str="Add Blog"
+                                <MyModal str="כתוב משהו.."
                                         content={(show, close) =>
                                         (<AddBlog
                                                 showModal={show}

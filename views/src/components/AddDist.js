@@ -3,7 +3,7 @@ import {
         Button,
         Modal,
 } from "react-bootstrap";
-import {modals, defaultButtonStyle} from "./Styles"
+import { modals, defaultButtonStyle } from "./Styles"
 
 class AddDist extends Component {
 
@@ -77,7 +77,7 @@ class AddDist extends Component {
                                 <form className="form-horizontal form-loanable">
                                         <fieldset>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Details</label>
+                                                        <label htmlFor="name" className="col-sm-5">פרטי החלוקה:</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <textarea
@@ -85,7 +85,7 @@ class AddDist extends Component {
                                                                         name="details"
                                                                         id="details"
                                                                         className="form-control"
-                                                                        placeholder="Enter details"
+                                                                        placeholder="הכנס פרטי חלוקה"
                                                                         onChange={this.onChange}
                                                                         value={this.state.details}
                                                                         required
@@ -93,7 +93,7 @@ class AddDist extends Component {
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Address</label>
+                                                        <label htmlFor="name" className="col-sm-5">רחוב:</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
@@ -101,7 +101,7 @@ class AddDist extends Component {
                                                                         name="address"
                                                                         id="address"
                                                                         className="form-control"
-                                                                        placeholder="Enter Address"
+                                                                        placeholder="הכנס רחוב"
                                                                         onChange={this.onChange}
                                                                         value={this.state.address}
                                                                         required
@@ -109,7 +109,7 @@ class AddDist extends Component {
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">City</label>
+                                                        <label htmlFor="name" className="col-sm-5">עיר:</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
@@ -117,7 +117,7 @@ class AddDist extends Component {
                                                                         name="city"
                                                                         id="city"
                                                                         className="form-control"
-                                                                        placeholder="Enter city"
+                                                                        placeholder="הכנס עיר"
                                                                         onChange={this.onChange}
                                                                         value={this.state.city}
                                                                         required
@@ -125,7 +125,7 @@ class AddDist extends Component {
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Date</label>
+                                                        <label htmlFor="name" className="col-sm-5">תאריך:</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
@@ -140,7 +140,7 @@ class AddDist extends Component {
                                                         </div>
                                                 </div>
                                                 <div className="form-group has-feedback required">
-                                                        <label htmlFor="name" className="col-sm-5">Repeat</label>
+                                                        <label htmlFor="name" className="col-sm-5">מחזורי</label>
                                                         <div className="col-sm-7">
                                                                 <span className="form-control-feedback" aria-hidden="true"></span>
                                                                 <input
@@ -155,8 +155,8 @@ class AddDist extends Component {
                                                 {this.state.repetitive && this.renderRepetitive()}
                                         </fieldset>
                                         <div className="form-action">
-                                                <Button style={defaultButtonStyle}
-                                                        className="btn btn-lg btn-primary btn-left" onClick={this.onSubmit}>Add <span className="icon-arrow-right2 outlined"></span></Button>
+                                                <Button style={{ margin: "-40px 20px", position: "absolute", left: "0" }}
+                                                        className="btn btn-primary" onClick={this.onSubmit}>הוסף <span className="icon-arrow-right2 outlined"></span></Button>
                                         </div>
                                 </form>
 
@@ -167,7 +167,7 @@ class AddDist extends Component {
         renderRepetitive = () => {
                 return <div>
                         <div className="form-group has-feedback required">
-                                <label htmlFor="name" className="col-sm-5">Every</label>
+                                <label htmlFor="name" className="col-sm-5">כל</label>
                                 <div className="col-sm-7">
                                         <span className="form-control-feedback" aria-hidden="true"></span>
                                         <input
@@ -182,12 +182,12 @@ class AddDist extends Component {
                                                 required
                                         />
                                 </div>
-                                <label htmlFor="name" className="col-sm-5">Days</label>
+                                <label htmlFor="name" className="col-sm-5">ימים</label>
                         </div>
 
 
                         <div className="form-group has-feedback required">
-                                <label htmlFor="name" className="col-sm-5">Until</label>
+                                <label htmlFor="name" className="col-sm-5">עד:</label>
                                 <div className="col-sm-7">
                                         <span className="form-control-feedback" aria-hidden="true"></span>
                                         <input
@@ -215,15 +215,14 @@ class AddDist extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header style={modals} closeButton={true}>
-                                                <h2>Add New Distribution</h2>
-                                        </Modal.Header>
+
+
+                                        <Modal.Header closeButton={true} style={{ position: "absolute", left: "0" }} />
+                                        <h3 style={{ direction: "rtl", margin: "10px 20px 0 0 " }}> הוסף חלוקה חדשה </h3>
                                         <Modal.Body style={modals}>
                                                 {this.renderDetails()}
                                         </Modal.Body>
-                                        <Modal.Footer style={modals}>
-                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
-                                        </Modal.Footer>
+
                                 </Modal>
                         </div>
                 );

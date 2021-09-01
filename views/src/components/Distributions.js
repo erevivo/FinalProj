@@ -6,7 +6,7 @@ import MyModal from "./MyModal";
 import Multiselect from 'multiselect-react-dropdown';
 import { Map, Marker, Markers } from '@joeattardi/react-mapquest-static-map';
 import { getStringFromDate } from "../common";
-import {defaultButtonStyle} from "./Styles";
+import { defaultButtonStyle } from "./Styles";
 class Distributions extends Component {
         state = {
                 dists: {},
@@ -89,7 +89,7 @@ class Distributions extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         console.log(data);
-                                        
+
                                         this.forceUpdate();
                                 } else {
                                         console.log("Error:", data.message);
@@ -127,7 +127,7 @@ class Distributions extends Component {
                                 //loading(false);
                                 if (data.success) {
                                         this.state.dists[city].forEach(d => {
-                                                if (d.ID == ID) {
+                                                if (d.ID === ID) {
                                                         d.done = true;
                                                 }
                                         });
@@ -157,10 +157,10 @@ class Distributions extends Component {
         renderCity = (c, l, m) => {
                 console.log(c, l, m);
                 return (<div>
-                        {m && this.state.date == getStringFromDate(new Date()) && <div>
-                                <span className="form-control-feedback" aria-hidden="true">{c}</span>
+                        {m && this.state.date === getStringFromDate(new Date()) && <div>
+                                <span className="form-control-feedback" aria-hidden="true">{c}{' '}</span>
                                 <Button style={defaultButtonStyle}
-                                        className="btn btn-lg btn-primary btn-left" id={c} onClick={this.assign}>Assign <span className="icon-arrow-right2 outlined"></span>
+                                        className="btn btn-lg btn-primary btn-left" id={c} onClick={this.assign}>שייך <span className="icon-arrow-right2 outlined"></span>
                                 </Button>
                         </div>
                         }
@@ -185,17 +185,38 @@ class Distributions extends Component {
 
         renderForManager() {
                 return (
-                        <div>
+                        /*
+                        return (<div className="container mt-3">
+                        <div className="card-group justify-content-between align-items-center align-content-between ">
+                                {this.state.users.map(u => <UserCard u={u}
+                                        isManager={this.props.isManager}
+                                        removeUser={this.removeUser} />)}
+                        </div>
+                        
+                        
+                        */
+
+                        <div className="card-group justify-content-between align-items-center align-content-between" style={{ direction: "rtl", textAlign: "center" }}>
                                 <div className="col-sm-3">
-                                        <span className="form-control-feedback" aria-hidden="true">Date</span>
+                                        <div style={{}}></div>
+                                        <span className="form-control-feedback" aria-hidden="true"> תאריך:</span>
                                         <input
                                                 type="date"
                                                 className="form-control"
                                                 onChange={this.changeDate}
                                                 required
                                         />
+                                        <MyModal str="הוסף חלוקה"
+                                                content={(show, close) =>
+                                                (<AddDist
+                                                        showModal={show}
+                                                        onClose={close}
+                                                        addFn={this.addDist}
+                                                />)}
+                                        />
                                 </div>
                                 <Multiselect
+                                        placeholder="בחר מחלק"
                                         options={this.state.availableDistributers} // Options to display in the dropdown
                                         selectedValues={this.state.selectedDistributers} // Preselected value to persist in dropdown
                                         onSelect={this.onSelect} // Function will trigger on select event
@@ -203,16 +224,6 @@ class Distributions extends Component {
                                         displayValue="name" // Property name to display in the dropdown options
                                 />
                                 {this.renderAllCitys()}
-
-
-                                <MyModal str="Add Distribution"
-                                        content={(show, close) =>
-                                        (<AddDist
-                                                showModal={show}
-                                                onClose={close}
-                                                addFn={this.addDist}
-                                        />)}
-                                />
                         </div>
                 );
         }
