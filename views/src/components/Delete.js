@@ -3,7 +3,7 @@ import {
         Button,
         Modal,
 } from "react-bootstrap";
-import {modals, defaultButtonStyle} from "./Styles"
+import { modals, defaultButtonStyle } from "./Styles"
 
 
 class Delete extends Component {
@@ -45,11 +45,13 @@ class Delete extends Component {
                         <div>
                                 <form className="form-horizontal form-loanable">
                                         <div className="form-action">
-                                                <Button className="btn btn-lg btn-primary btn-left" onClick={this.onSubmit}>Yes <span className="icon-arrow-right2 outlined"></span></Button>
+                                                <Button className="btn btn-lg btn-primary btn-left" onClick={this.onSubmit}>כן</Button>
+                                                <Button className="btn btn-lg btn-primary btn-left" style={{ position: "absolute", left: "10px" }}
+                                                        onClick={this.props.onClose}>לא</Button>
                                         </div>
                                 </form>
 
-                        </div>
+                        </div >
                 );
         };
 
@@ -63,13 +65,14 @@ class Delete extends Component {
                                         bsSize="large"
                                 >
                                         <Modal.Header style={modals} closeButton={true}>
-                                                <h2>Are you sure you want to delete {this.props.username}</h2>
+                                                <h3 style={{ direction: "rtl", margin: "10px 20px 0 0 " }}>
+                                                        האם אתה בטוח שברצונך למחוק את {this.props.username} </h3>
                                         </Modal.Header>
                                         <Modal.Body style={modals}>
                                                 {this.renderDelete()}
                                         </Modal.Body>
                                         <Modal.Footer style={modals}>
-                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
+
                                         </Modal.Footer>
                                 </Modal>
                         </div>
