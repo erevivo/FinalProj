@@ -196,7 +196,7 @@ class Distributions extends Component {
                         
                         */
 
-                        <div className="card-group justify-content-between align-items-center align-content-between" style={{ direction: "rtl", textAlign: "center" }}>
+                        <div className="card-group justify-content-between align-items-center align-content-between " style={{ direction: "rtl", textAlign: "center" }}>
                                 <div className="col-sm-3">
                                         <div style={{}}></div>
                                         <span className="form-control-feedback" aria-hidden="true"> תאריך:</span>

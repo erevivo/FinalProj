@@ -6,10 +6,10 @@ class DistItem extends Component {
         render() {
                 return (
 
-                        <Card style={{ minWidth: '16rem', maxWidth: '16rem', direction: "rtl", textAlign: "center" }}>
-                                <Card.Header>{this.props.item.address} {this.props.item.city}</Card.Header>
+                        <Card style={{ minWidth: '24rem', maxWidth: '24rem', direction: "rtl", textAlign: "center" }}>
+                                <Card.Header style={{ fontWeight: "700", color: "#FFFFFF", background: "#0890bb" }}>{this.props.item.address} {this.props.item.city}</Card.Header>
                                 <Card.Body>
-                                        <blockquote className="blockquote mb-0">
+                                        <blockquote className="blockquote-0" >
                                                 <p>
                                                         {this.props.item.details}
                                                 </p>

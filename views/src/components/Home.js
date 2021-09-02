@@ -28,7 +28,7 @@ let bg = {
         overflowY: "hidden",
         opacity: "1",
         width: "100%",
-        height: "calc(628px)"
+        height: "calc(610px)"
 }
 
 class Home extends Component {
@@ -36,8 +36,6 @@ class Home extends Component {
                 return <div>
                         <div><img src={background}
                                 style={bg}></img></div>
-                        <div style={{ backgroundImage: `url(${background})` }}>
-                        </div>
                         <div>
                                 <p style={textStyle}>
                                         ברוכים הבאים <b>לקלנועית</b> - ארגון ההפצה הגדול בישראל לאוכלוסיה המבוגרת.
@@ -49,12 +47,12 @@ class Home extends Component {
                                         <b>הקלנועית</b> הוקמה בשנת 2021 ע"י היזמים אביתר רביבו ואבי קניגסברג
                                         אשר נתקלו בקשיי סיפוק המצרכים לקשישים בתקופת הקורונה.
                                         <br />
-                                        בימים אלו הקלנועית משרתת אלפי קשישים במדינת ישראל
+                                        בימים אלו <b>הקלנועית</b> משרתת אלפי קשישים במדינת ישראל
                                         והינה חלק בלתי נפרד מתעשיית המשלוחים.
                                         <br />
                                         בין לקוחותינו, ראשי הממשלות לשעבר, בכירי המוסד ועוד..
                                         <br />
-                                        נשמח לעמוד לרשותכם בכל עת.
+                                        <b>נשמח לעמוד לרשותכם בכל עת</b>.
                                         <br />
                                         אביתר רביבו
                                         אבי קניסברג

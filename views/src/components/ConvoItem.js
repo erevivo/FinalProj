@@ -9,9 +9,9 @@ class ConvoItem extends Component {
                 return (
 
                         <Card>
-                                <Card.Header>Conversation between {manName} and {distName}</Card.Header>
+                                <Card.Header style={{ direction: "rtl" }}>שיחה בן {manName} לבין {distName}</Card.Header>
                                 <Card.Body>
-                                        <MyModal str="Chat"
+                                        <MyModal str="כנס לצ'אט"
                                                 content={(show, close) =>
                                                 (<ChatForm
                                                         showModal={show}

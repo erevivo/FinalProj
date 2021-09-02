@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import LoginForm from "./LoginForm";
 import MyModal from "./MyModal";
 import { Modal } from "react-bootstrap";
-import logo from "../images/logo01.png";
+import logo from "../images/logo01.gif";
 import { modals } from "./Styles";
 
 const navItemStyle = {
@@ -55,10 +55,21 @@ class Navbar extends Component {
 
 
   render() {
+    var today = new Date()
+    var curHr = today.getHours()
+    var message = ""
+    if (curHr < 12) {
+      message = "בוקר טוב 🌞"
+    } else if (curHr < 18) {
+      message = 'צהריים טובים 🌞'
+    } else {
+      message = 'ערב טוב 🌚'
+    }
+
     console.log(this.state);
     return (
       <div style={modals}>
-        <Nav defaultActiveKey="/home">
+        <Nav defaultActiveKey="/home" className="navbar navbar-expand-lg navbar-light bg-light">
 
           {this.state.loggedIn ? (
             <NavLink className="col-sm-1" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} onClick={this.logout}
@@ -67,7 +78,7 @@ class Navbar extends Component {
           ) :
             (
               <Nav.Item className="col-sm-1" style={navItemStyle}>
-                <MyModal str="התחבר" buttonStyle={buttonStyle} content={(show, close) =>
+                <MyModal str="התחבר" content={(show, close) =>
                 (<LoginForm
                   showModal={show}
                   onClose={close}
@@ -85,7 +96,7 @@ class Navbar extends Component {
               {this.state.isManager ? "משתמשים" : "מנהלים"} </NavLink>)}
 
           {this.state.loggedIn && (
-            <NavLink className="col-sm-1" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} to={"/blogs"}>בלוג</NavLink>)}
+            <NavLink className="col-sm-1" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} to={"/blogs"}>הבלוג</NavLink>)}
 
           {this.state.loggedIn && (
             <NavLink className="col-sm-1" style={{ ...navItemStyle, ...navAdd, ...linkStyle }} to={"/convos"}>
@@ -98,8 +109,9 @@ class Navbar extends Component {
               חלוקות
             </NavLink>
           )}
+          <span style={{ marginTop: "10px" }}>{message}</span>
           <NavLink to={"/home"}><img src={logo}
-            style={{ margin: "auto", position: "fixed", left: "35px", top: "-5px", height: "100px" }}></img></NavLink>
+            style={{ position: "absolute", left: "0", marginTop: "-55px", height: "100px" }}></img></NavLink>
         </Nav>
       </div>
     );

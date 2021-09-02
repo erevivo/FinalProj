@@ -5,7 +5,7 @@ import {
         Button,
         Modal,
 } from "react-bootstrap";
-import {modals, defaultButtonStyle} from "./Styles"
+import { modals, defaultButtonStyle } from "./Styles"
 
 class AddBlog extends Component {
         state = {
@@ -53,10 +53,12 @@ class AddBlog extends Component {
                 return (
                         <form>
                                 <label>
-                                        Blog:
-                                        <textarea value={this.state.input} onChange={this.handleChange} />
+                                        <textarea style={{ width: "220%" }} value={this.state.input} onChange={this.handleChange} />
                                 </label>
-                                <Button style={defaultButtonStyle} className="btn btn-lg btn-primary btn-left" onClick={this.add}>Add <span className="icon-arrow-right2 outlined"></span></Button>
+                                <div className="form-action">
+                                        <Button style={{ margin: "-40px 20px", position: "absolute", left: "0" }}
+                                                className="btn btn-primary" onClick={this.add}>הוסף <span className="icon-arrow-right2 outlined"></span></Button>
+                                </div>
                         </form>
                 );
         }
@@ -66,17 +68,13 @@ class AddBlog extends Component {
                                 <Modal
                                         show={this.props.showModal}
                                         onHide={this.props.onClose}
-                                        
+
                                 >
-                                        <Modal.Header style={modals} closeButton={true} >
-                                                <h2>Add New Blog</h2>
-                                        </Modal.Header>
+                                        <Modal.Header closeButton={true} style={{ position: "absolute", left: "0" }} />
+                                        <h4 style={{ direction: "rtl", margin: "10px 20px 0 0 " }}> צור הודעה חדשה </h4>
                                         <Modal.Body style={modals}>
                                                 {this.renderDetails()}
                                         </Modal.Body>
-                                        <Modal.Footer style={modals}>
-                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
-                                        </Modal.Footer>
                                 </Modal>
                         </div>
                 );

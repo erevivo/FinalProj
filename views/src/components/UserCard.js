@@ -66,7 +66,7 @@ class UserCard extends Component {
         }
         render() {
                 return (
-                        <Card style={{ minWidth: '16rem', maxWidth: '16rem', direction: "rtl" }}>
+                        <Card style={{ minWidth: '17rem', maxWidth: '17rem', direction: "rtl" }} className="shadow p-3 mb-5 bg-white rounded">
                                 {this.props.u.userType === "M" ?
                                         this.renderManager()
                                         :

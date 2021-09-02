@@ -1,8 +1,7 @@
 const defaultButtonStyle = {
-        backgroundColor: "#ff6600",
         fontFamily: "Heebo', sans - serif",
         fontWeight: "400",
-        color: "#000000",
+        color: "#white",
         fontSize: "15px",
         direction: "rtl",
 
@@ -10,6 +9,7 @@ const defaultButtonStyle = {
 }
 const modals = {
         direction: "rtl",
+        fontFamily: "Heebo', sans - serif",
 
 
 }

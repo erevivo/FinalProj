@@ -136,12 +136,11 @@ class ChatForm extends Component {
                 return (
                         <form>
                                 <label>
-                                        Message:
-                                        <textarea value={this.state.chatMessage} onChange={this.handleChange} />
+                                        ההודעה:
+                                        <textarea style={{ width: "170%" }} value={this.state.chatMessage} onChange={this.handleChange} />
                                 </label>
-                                <Button style={defaultButtonStyle}
-                                        className="btn btn-lg btn-primary btn-left" onClick={this.send}>Submit <span className="icon-arrow-right2 outlined"></span>
-                                </Button>
+                                <Button style={{ margin: "20px 20px", position: "absolute", left: "0" }}
+                                        className="btn btn-primary" onClick={this.send}>שלח <span className="icon-arrow-right2 outlined"></span></Button>
                         </form>
                 );
         }
@@ -162,18 +161,15 @@ class ChatForm extends Component {
 
                                         bsSize="large"
                                 >
-                                        <Modal.Header style={modals} closeButton={true}>
-                                                <h2>Chat with {this.props.receiver}</h2>
-                                        </Modal.Header>
+                                        <Modal.Header closeButton={true} style={{ position: "absolute", left: "0" }} />
+
+                                        <h3 style={{ direction: "rtl", margin: "10px 20px 0 0 " }}>שיחה עם {this.props.receiver}</h3>
                                         <Modal.Body style={modals}>
                                                 <div style={convoStyle}>{this.renderConvo()}</div>
                                         </Modal.Body>
                                         <Modal.Body style={modals}>
                                                 {this.renderDetails()}
                                         </Modal.Body>
-                                        <Modal.Footer style={modals}>
-                                                <Button style={defaultButtonStyle} onClick={this.props.onClose}>Close</Button>
-                                        </Modal.Footer>
                                 </Modal>
                         </div>
                 );
